@@ -2,8 +2,6 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="Backend.main" target="18" />
-      <module name="Backend.test" target="18" />
       <module name="KotlinBackend" target="18" />
       <module name="KotlinBackend.main" target="18" />
       <module name="KotlinBackend.test" target="18" />
