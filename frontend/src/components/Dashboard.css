@@ -1,0 +1,40 @@
+.dashboard-container {
+  padding: 20px;
+  text-align: center;
+}
+
+.logo {
+  width: 80px;
+  margin-bottom: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.status-done {
+  background-color: #a8e6cf;
+}
+
+.status-open {
+  background-color: #ff8b94;
+}
+
+.add-button {
+  background-color: #000;
+  color: white;
+  font-size: 24px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  margin-top: 20px;
+}
