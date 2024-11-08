@@ -1,12 +1,13 @@
-import React from 'react';
-import './Register.css'; // Für individuelles CSS
+import './Register.css';
+import logo from '../assets/logo.png';
+
 
 const Register = () => (
     <div className="register-container">
-        <img src="/assets/logo.png" alt="FlatFlow Logo" className="logo" />
+        <img src={logo} alt="FlatFlow Logo" className="logo"/>
         <h2>Account anlegen</h2>
         <form>
-            <input type="text" placeholder="Name" required />
+        <input type="text" placeholder="Name" required />
             <input type="text" placeholder="Vorname" required />
             <input type="text" placeholder="Nickname" required />
             <input type="password" placeholder="Passwort" required />

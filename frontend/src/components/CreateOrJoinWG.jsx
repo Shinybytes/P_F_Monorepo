@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-
+import { useState } from 'react';
 const CreateOrJoinWG = () => {
     const [wgName, setWgName] = useState('');
     const [joinCode, setJoinCode] = useState('');

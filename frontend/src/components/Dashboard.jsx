@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './Dashboard.css';
 import AddTaskPopup from './AddTaskPopup';
 import Header from './Header';
@@ -14,8 +14,7 @@ const Dashboard = () => {
 
     return (
         <div className="dashboard-container">
-            <img src="/assets/logo.png" alt="FlatFlow Logo" className="logo" />
-            <Header />
+            <Header/>
             <h2>WG Name</h2>
             <table>
                 <thead>
@@ -40,7 +39,7 @@ const Dashboard = () => {
                 </tbody>
             </table>
             <button onClick={() => setShowPopup(true)} className="add-button">+</button>
-            {showPopup && <AddTaskPopup onClose={() => setShowPopup(false)} />}
+            {showPopup && <AddTaskPopup onClose={() => setShowPopup(false)}/>}
         </div>
     );
 };

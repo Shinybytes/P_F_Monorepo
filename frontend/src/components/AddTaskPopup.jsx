@@ -1,4 +1,3 @@
-import React from 'react';
 import './AddTaskPopup.css';
 
 const AddTaskPopup = ({ onClose }) => (

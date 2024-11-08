@@ -1,6 +1,7 @@
-import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Header.css';
+import logo from "../assets/logo.png";
+import profil from "../assets/profil.png";
 
 const Header = () => {
     const navigate = useNavigate();
@@ -13,13 +14,13 @@ const Header = () => {
 
     return (
         <header className="header">
-            <div className="logo">FlatFlow</div>
+            <img src={logo} alt="FlatFlow Logo" className="logo"/>
             <div className="profile">
-                <img
-                    src="/path/to/profile-icon.png"
+            <img
+                    src={profil}
                     alt="Profil"
                     onClick={handleLogout}
-                    className="profile-icon"
+                    className="profil"
                 />
             </div>
         </header>

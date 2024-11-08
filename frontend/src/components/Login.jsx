@@ -1,9 +1,10 @@
-import React from 'react';
-import './Login.css';
+import './Login.css'
+import logo from '../assets/logo.png';
+
 
 const Login = () => (
     <div className="login-container">
-        <img src="/assets/logo.png" alt="FlatFlow Logo" className="logo" />
+        <img src={logo} alt="FlatFlow Logo" className="logo" />
         <h2>Login</h2>
         <form>
             <input type="email" placeholder="E-Mail" required />
@@ -14,3 +15,4 @@ const Login = () => (
 );
 
 export default Login;
+
