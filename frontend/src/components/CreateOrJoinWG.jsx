@@ -1,45 +1,93 @@
 import { useState } from 'react';
-const CreateOrJoinWG = () => {
-    const [wgName, setWgName] = useState('');
-    const [joinCode, setJoinCode] = useState('');
+import Button from './Button';
+import Input from './Input';
+import logo from '../assets/logo.png';
 
-    const handleCreateWG = () => {
-        // Logik für das Erstellen einer neuen WG hinzufügen (API-Aufruf)
-        console.log("Neue WG erstellen:", wgName);
+
+// Hauptkomponente für das Erstellen oder Beitreten einer WG
+const CreateOrJoinWG = () => {
+    // useState-Hooks zum Speichern der Eingabewerte und Nachricht
+    const [wgName, setWgName] = useState(''); // Name der neuen WG
+    const [joinCode, setJoinCode] = useState(''); // Einladungscode für existierende WG
+    const [message, setMessage] = useState(''); // Rückmeldung zum Erfolg oder Fehler
+
+
+    // Funktion zum Erstellen einer neuen WG (API-Aufruf)
+    const handleCreateWG = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/create-wg", { // Backend-API-Aufruf
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ name: wgName }) // WG-Name im Request-Body
+            });
+
+            if (response.ok) {
+                setMessage("WG erfolgreich erstellt!");
+            } else {
+                setMessage("Fehler beim Erstellen der WG. Bitte versuchen Sie es erneut.");
+            }
+        } catch (error) {
+            console.error("Fehler:", error);
+            setMessage("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        }
     };
 
-    const handleJoinWG = () => {
-        // Logik für das Beitreten einer bestehenden WG hinzufügen (API-Aufruf)
-        console.log("WG beitreten mit Code:", joinCode);
+    // Funktion zum Beitreten einer bestehenden WG (API-Aufruf)
+    const handleJoinWG = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/join-wg", { // Backend-API-Aufruf
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ code: joinCode }) // Einladungscode im Request-Body
+            });
+
+            if (response.ok) {
+                setMessage("WG erfolgreich beigetreten!");
+            } else {
+                setMessage("Fehler beim Beitreten der WG. Bitte überprüfen Sie den Einladungscode.");
+            }
+        } catch (error) {
+            console.error("Fehler:", error);
+            setMessage("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+        }
     };
 
     return (
-        <div style={{ textAlign: 'center', padding: '20px' }}>
-            <h2>Wähle eine Option</h2>
+        <div className="container-center">
+            <img src={logo} alt="FlatFlow Logo" className="logo"/>
+            <h2>WG beitreten oder erstellen</h2>
+            {message && <p className="message">{message}</p>}
 
-            <div style={{ marginBottom: '20px' }}>
+            <div className="create-wg-section">
                 <h3>Neue WG erstellen</h3>
-                <input
+                <Input
                     type="text"
                     placeholder="Name der WG"
                     value={wgName}
                     onChange={(e) => setWgName(e.target.value)}
+                    required
                 />
-                <button onClick={handleCreateWG}>Erstellen</button>
+                <Button onClick={handleCreateWG}>Erstellen</Button>
             </div>
 
-            <div>
+            <div className="join-wg-section">
                 <h3>WG beitreten</h3>
-                <input
+                <Input
                     type="text"
                     placeholder="Einladungscode"
                     value={joinCode}
                     onChange={(e) => setJoinCode(e.target.value)}
+                    required
                 />
-                <button onClick={handleJoinWG}>Beitreten</button>
+                <Button onClick={handleJoinWG}>Beitreten</Button>
             </div>
         </div>
     );
 };
 
 export default CreateOrJoinWG;
+

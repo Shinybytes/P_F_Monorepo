@@ -1,20 +1,48 @@
-import { useState } from 'react';
-import './Dashboard.css';
+import { useState, useEffect } from 'react';
+import '../Global.css';
 import AddTaskPopup from './AddTaskPopup';
 import Header from './Header';
 
 const Dashboard = () => {
+    const [tasks, setTasks] = useState([]); // State für Aufgaben
     const [showPopup, setShowPopup] = useState(false);
 
-    const tasks = [
-        { id: 1, title: 'Flur putzen', person: 'Pia', category: 'Putzdienst', status: 'erledigt' },
-        { id: 2, title: 'Einkaufen', person: 'Simon', category: 'Einkäufe', status: 'offen' },
-        { id: 3, title: '20 € an Pia senden', person: 'Ferdi', category: 'Finanzen', status: 'erledigt' }
-    ];
+    // Funktion zum Laden der Aufgaben aus der Datenbank
+    const loadTasks = async () => {
+        try {
+            const response = await fetch("http://localhost:8080/tasks");
+            const data = await response.json();
+            setTasks(data); // Aufgaben in den State setzen
+        } catch (error) {
+            console.error("Fehler beim Laden der Aufgaben:", error);
+        }
+    };
+
+    useEffect(() => {
+        loadTasks(); // Aufgaben beim ersten Laden der Komponente holen
+    }, []);
+
+    // Funktion zum Hinzufügen einer Aufgabe
+    const addTask = async (newTask) => {
+        try {
+            const response = await fetch("http://localhost:8080/tasks", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(newTask)
+            });
+            if (response.ok) {
+                loadTasks(); // Aufgaben neu laden, um die aktuelle Liste zu sehen
+            }
+        } catch (error) {
+            console.error("Fehler beim Hinzufügen der Aufgabe:", error);
+        }
+    };
 
     return (
         <div className="dashboard-container">
-            <Header/>
+            <Header />
             <h2>WG Name</h2>
             <table>
                 <thead>
@@ -39,7 +67,12 @@ const Dashboard = () => {
                 </tbody>
             </table>
             <button onClick={() => setShowPopup(true)} className="add-button">+</button>
-            {showPopup && <AddTaskPopup onClose={() => setShowPopup(false)}/>}
+            {showPopup && (
+                <AddTaskPopup
+                    onClose={() => setShowPopup(false)}
+                    onSave={addTask} // addTask als onSave-Funktion übergeben
+                />
+            )}
         </div>
     );
 };

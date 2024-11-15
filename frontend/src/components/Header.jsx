@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import './Header.css';
+import '../Global.css';
 import logo from "../assets/logo.png";
 import profil from "../assets/profil.png";
 
@@ -7,7 +7,7 @@ const Header = () => {
     const navigate = useNavigate();
 
     const handleLogout = () => {
-        // Hier würde man die Logout-Logik implementieren
+        // Hier muss die Logout-Logik noch implementiert werden
         console.log("User logged out");
         navigate('/login');
     };
