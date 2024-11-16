@@ -11,6 +11,7 @@ import io.ktor.server.auth.*
 import io.ktor.http.*
 import io.ktor.server.auth.jwt.*
 import kotlinx.serialization.Serializable
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.time.LocalDateTime
 
 @Serializable
@@ -30,10 +31,10 @@ fun Route.wgRoutes() {
                 val principal = call.principal<JWTPrincipal>()
                 val userId = principal!!.payload.getClaim("userId").asInt()
 
-                val wgId = transaction {
+                val wgId = newSuspendedTransaction {
                     if (WGs.select { WGs.name eq request.name }.count() > 0) {
                         call.respond(HttpStatusCode.Conflict, "WG-Name bereits vergeben")
-                        return@transaction null
+                        return@newSuspendedTransaction  null
                     }
 
                     val newWgId = WGs.insert {
@@ -57,12 +58,12 @@ fun Route.wgRoutes() {
                 val principal = call.principal<JWTPrincipal>()
                 val userId = principal!!.payload.getClaim("userId").asInt()
 
-                transaction {
+                newSuspendedTransaction {
                     val wg = WGs.select { WGs.name eq request.name }.singleOrNull()
-                        ?: return@transaction call.respond(HttpStatusCode.NotFound, "WG nicht gefunden")
+                        ?: return@newSuspendedTransaction  call.respond(HttpStatusCode.NotFound, "WG nicht gefunden")
 
                     if (WGMembers.select { (WGMembers.wgId eq wg[WGs.wgId]) and (WGMembers.userId eq userId) }.count() > 0) {
-                        return@transaction call.respond(HttpStatusCode.Conflict, "Benutzer ist bereits Mitglied in dieser WG")
+                        return@newSuspendedTransaction  call.respond(HttpStatusCode.Conflict, "Benutzer ist bereits Mitglied in dieser WG")
                     }
 
                     WGMembers.insert {

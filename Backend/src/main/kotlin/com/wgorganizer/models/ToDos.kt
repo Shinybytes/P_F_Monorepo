@@ -9,7 +9,7 @@ object ToDos : Table() {
     val title = varchar("title", 255)
     val description = text("description").nullable()
     val status = varchar("status", 20)
-    val priority = varchar("priority", 20)
+    val priority = integer("priority")
     val assignedTo = integer("assigned_to").references(Users.userId).nullable()
     val dueDate = datetime("due_date").nullable()
     val createdAt = datetime("created_at")

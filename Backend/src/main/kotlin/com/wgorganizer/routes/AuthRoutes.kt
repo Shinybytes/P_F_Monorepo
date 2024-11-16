@@ -12,6 +12,7 @@ import io.ktor.server.auth.*
 import io.ktor.http.*
 import io.ktor.server.auth.jwt.*
 import kotlinx.serialization.Serializable
+import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.time.LocalDateTime
 import org.mindrot.jbcrypt.BCrypt
 
@@ -30,16 +31,16 @@ fun Route.authRoutes() {
             val request = call.receive<UserRegisterRequest>()
             val passwordHash = BCrypt.hashpw(request.password, BCrypt.gensalt())
 
-            val userId = transaction {
+            val userId = newSuspendedTransaction  {
                 if (Users.select { Users.email eq request.email }.count() > 0) {
                     call.respond(HttpStatusCode.Conflict, "Email bereits registriert")
-                    return@transaction null
+                    return@newSuspendedTransaction  null
                 }
 
                 Users.insert {
                     it[username] = request.username
                     it[email] = request.email
-                    it[passwordHash] = passwordHash
+                    it[Users.passwordHash] = passwordHash
                     it[createdAt] = LocalDateTime.now()
                 } get Users.userId
             } ?: return@post

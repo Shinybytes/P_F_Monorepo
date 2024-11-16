@@ -25,6 +25,12 @@ repositories {
     gradlePluginPortal()
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(22))
+    }
+}
+
 dependencies {
     implementation("io.ktor:ktor-server-core:2.x.x")
     implementation("io.ktor:ktor-server-netty:2.x.x")

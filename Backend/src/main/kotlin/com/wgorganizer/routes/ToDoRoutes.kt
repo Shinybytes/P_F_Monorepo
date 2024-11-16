@@ -12,6 +12,8 @@ import io.ktor.http.*
 import io.ktor.server.auth.jwt.*
 import kotlinx.serialization.Serializable
 import java.time.LocalDateTime
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
+
 
 @Serializable
 data class ToDoCreateRequest(
