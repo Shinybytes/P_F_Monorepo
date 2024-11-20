@@ -30,7 +30,7 @@ const Login = () => {
         setErrorMessage(''); // Setzt die Fehlermeldung zurück
         try {
             // API-Aufruf zum Login mit den Formular-Daten
-            const response = await fetch("http://localhost:8080/login", {
+            const response = await fetch("/auth/login", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -39,10 +39,17 @@ const Login = () => {
             });
 
             if (response.ok) {
-                // Erfolgreicher Login, Weiterleitung zur Dashboard-Seite
-                alert("Login erfolgreich!");
-                navigate("/dashboard");
-            } else {
+                // Erfolgreicher Login, Token speichern und Weiterleitung
+                const data = await response.json();
+                const token = data.token; // Token aus der API-Antwort
+
+                // Speichern des Tokens in localStorage (für nachfolgende API-Requests)
+                localStorage.setItem('token', token);
+
+                // Weiterleitung zum Dashboard
+                navigate("/");
+            }
+            else {
                 // Fehlerbehandlung bei fehlgeschlagenem Login
                 const data = await response.json();
                 setErrorMessage(data.message || "Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.");

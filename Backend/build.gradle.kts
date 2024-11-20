@@ -31,6 +31,7 @@ java {
     }
 }
 
+
 dependencies {
     implementation("io.ktor:ktor-server-core:2.x.x")
     implementation("io.ktor:ktor-server-netty:2.x.x")

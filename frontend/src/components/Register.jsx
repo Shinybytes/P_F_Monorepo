@@ -1,16 +1,21 @@
 import logo from '../assets/logo.png';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import für Navigation
 import Button from './Button';
 import Input from './Input';
 
 const Register = () => {
     // Initialisiert den State für die Formulardaten
     const [formData, setFormData] = useState({
-        firstName: '',
-        lastName: '',
+        username: '', // Username wird verwendet
         email: '',
         password: ''
     });
+
+    // State für Fehlermeldungen oder Feedback
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const navigate = useNavigate(); // Hook zur Navigation
 
     // Aktualisiert den State, wenn der Benutzer Eingaben macht
     const handleChange = (e) => {
@@ -23,9 +28,11 @@ const Register = () => {
     // Verarbeitet das Formular beim Absenden
     const handleSubmit = async (e) => {
         e.preventDefault(); // Verhindert das Neuladen der Seite beim Absenden des Formulars
+        setErrorMessage(''); // Fehler zurücksetzen
+
         try {
             // Sendet eine POST-Anfrage an die Backend-API zur Benutzerregistrierung
-            const response = await fetch("http://localhost:8080/users", {
+            const response = await fetch("/auth/register", { // Relativer API-Endpunkt
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -34,25 +41,48 @@ const Register = () => {
             });
 
             if (response.ok) {
-                alert("Registrierung erfolgreich!");
+                navigate("/create-or-join"); // Nach erfolgreicher Registrierung zur Login-Seite navigieren
             } else {
-                alert("Fehler bei der Registrierung.");
+                // Falls die Registrierung fehlschlägt, Fehlernachricht auslesen
+                const data = await response.json();
+                setErrorMessage(data.message || "Fehler bei der Registrierung. Bitte versuchen Sie es erneut.");
             }
         } catch (error) {
             console.error("Fehler:", error);
-            alert("Fehler bei der Registrierung.");
+            setErrorMessage("Ein Netzwerkfehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
         }
     };
 
     return (
         <div className="container-center">
-            <img src={logo} alt="FlatFlow Logo" className="logo"/>
+            <img src={logo} alt="FlatFlow Logo" className="logo" />
             <h2>Account anlegen</h2>
+            {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Fehlermeldungen anzeigen */}
             <form onSubmit={handleSubmit}>
-                <Input type="text" name="firstName" placeholder="Vorname" value={formData.firstName} onChange={handleChange} required />
-                <Input type="text" name="lastName" placeholder="Name" value={formData.lastName} onChange={handleChange} required />
-                <Input type="email" name="email" placeholder="E-Mail" value={formData.email} onChange={handleChange} required />
-                <Input type="password" name="password" placeholder="Passwort" value={formData.password} onChange={handleChange} required />
+                <Input
+                    type="text"
+                    name="username"
+                    placeholder="Benutzername"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                />
+                <Input
+                    type="email"
+                    name="email"
+                    placeholder="E-Mail"
+                    value={formData.email}
+                    onChange={handleChange}
+                    required
+                />
+                <Input
+                    type="password"
+                    name="password"
+                    placeholder="Passwort"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
                 <Button type="submit">Registrieren</Button>
             </form>
         </div>

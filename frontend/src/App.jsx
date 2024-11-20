@@ -5,7 +5,7 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import CreateOrJoinWG from './components/CreateOrJoinWG';
 import ForgotPassword from "./components/ForgotPassword.jsx";
-import AddTaskPopup from "./components/AddTaskPopup.jsx";
+import Logout from './components/Logout';
 
 function App() {
     return (
@@ -16,7 +16,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/create-or-join" element={<CreateOrJoinWG />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route path="/add-task" element={<AddTaskPopup />} />
+                <Route path="/logout" element={<Logout />} />
             </Routes>
         </Router>
     );
