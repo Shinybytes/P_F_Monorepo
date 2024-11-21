@@ -25,9 +25,18 @@ const Header = () => {
         setShowMenu(!showMenu); // Menü ein-/ausklappen
     };
 
+    const goToDashboard = () => {
+        navigate('/'); // Weiterleitung zum Dashboard
+    };
+
+    const goToProfile = () => {
+        navigate('/profile'); // Weiterleitung zur Profilseite
+    };
+
     return (
         <header className="header">
-            <img src={logo} alt="FlatFlow Logo" className="logo" />
+            {/* Klick auf das Logo leitet zum Dashboard */}
+            <img src={logo} alt="FlatFlow Logo" className="logo" onClick={goToDashboard} style={{ cursor: 'pointer' }} />
             <div className="profile">
                 <img
                     src={profil}
@@ -37,6 +46,7 @@ const Header = () => {
                 />
                 {showMenu && (
                     <div className="dropdown-menu"> {/* Dropdown-Menü */}
+                        <button onClick={goToProfile} className="dropdown-item">Profil</button>
                         <button onClick={handleLogout} className="dropdown-item">Logout</button>
                     </div>
                 )}

@@ -15,6 +15,11 @@ h2 {
 .logo {
   width: 120px;
   margin-bottom: 30px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.logo:hover {
+  transform: scale(1.05); /* Vergrößerung beim Hover */
 }
 
 .register-container .form,
@@ -121,6 +126,8 @@ h2 {
   width: 30px;
   height: 30px;
 }
+
+
 
 /* Dashboard CSS */
 
@@ -233,4 +240,44 @@ th, td {
   font-size: 15px;
   font-weight: bold;
   color: #333;
+}
+
+/* Profil-Container */
+.profile-container {
+  max-width: 500px;
+  margin: 0 auto;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Profil-Formular */
+.profile-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* Nachricht */
+.message {
+  color: green;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+
+/* Überschrift */
+.profile-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+/* Mobile Optimierung */
+@media (max-width: 768px) {
+  .profile-container {
+    width: 90%;
+    padding: 15px;
+  }
 }

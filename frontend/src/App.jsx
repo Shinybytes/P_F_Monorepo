@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Dashboard from './components/Dashboard';
 import CreateOrJoinWG from './components/CreateOrJoinWG';
 import ForgotPassword from "./components/ForgotPassword.jsx";
+import Profile from "./components/Profile.jsx";
 import Logout from './components/Logout';
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/create-or-join" element={<CreateOrJoinWG />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
+                <Route path="/profile" element={<Profile />} />
                 <Route path="/logout" element={<Logout />} />
             </Routes>
         </Router>

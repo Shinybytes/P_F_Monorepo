@@ -4,22 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2332b897-2fbe-47c1-a001-c58ba2825b63" name="Changes" comment="Frontend aufgeräumt, Backend Funktionen ergänzt, CSS in globale Datei sortiert">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Logout.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1e63d878-d7eb-46d6-a854-9b9fe0d0b6b2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1e63d878-d7eb-46d6-a854-9b9fe0d0b6b2.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="2332b897-2fbe-47c1-a001-c58ba2825b63" name="Changes" comment="Frontend and Backend connected through APIs for Login &amp; Register">
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Profile.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/Global.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Global.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Register.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -65,8 +55,21 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
     <option name="UPDATE_TYPE" value="REBASE" />
   </component>
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "piaroth9"
+  }
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Shinybytes/P_F_Monorepo.git",
+    "accountId": "cff2431f-4d8f-4610-89f7-8c5c55b76dba"
+  }
+}]]></component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -92,12 +95,14 @@
     "Gradle.Backend [run].executor": "Run",
     "Gradle.Build Backend.executor": "Run",
     "Kotlin.ApplicationKt.executor": "Run",
+    "Node.js.Login.jsx.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/Pia Roth/Java",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -122,7 +127,7 @@
       <command value="gradle build" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.Backend [run]">
+  <component name="RunManager" selected="Node.js.Login.jsx">
     <configuration name="Backend [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -212,14 +217,26 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Login.jsx" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/frontend/src/components/Login.jsx" working-dir="$PROJECT_DIR$/frontend/src/components">
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Node.js.Login.jsx" />
         <item itemvalue="Gradle.Backend [run]" />
         <item itemvalue="Gradle.Backend [build]" />
         <item itemvalue="Kotlin.ApplicationKt" />
         <item itemvalue="Gradle.KotlinBackend [build]" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23339.11" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23339.11" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="SvnConfiguration">
@@ -242,6 +259,7 @@
       <workItem from="1731662260872" duration="6167000" />
       <workItem from="1731757317845" duration="6093000" />
       <workItem from="1731837956716" duration="28000" />
+      <workItem from="1732201019578" duration="7597000" />
     </task>
     <task id="LOCAL-00001" summary="Backend init">
       <option name="closed" value="true" />
@@ -275,7 +293,15 @@
       <option name="project" value="LOCAL" />
       <updated>1731759937429</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Frontend and Backend connected through APIs for Login &amp; Register">
+      <option name="closed" value="true" />
+      <created>1732115621112</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1732115621112</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -299,7 +325,8 @@
     <MESSAGE value="Backend Progress Stage  1, some bugs left" />
     <MESSAGE value="API and Server working" />
     <MESSAGE value="Frontend aufgeräumt, Backend Funktionen ergänzt, CSS in globale Datei sortiert" />
-    <option name="LAST_COMMIT_MESSAGE" value="Frontend aufgeräumt, Backend Funktionen ergänzt, CSS in globale Datei sortiert" />
+    <MESSAGE value="Frontend and Backend connected through APIs for Login &amp; Register" />
+    <option name="LAST_COMMIT_MESSAGE" value="Frontend and Backend connected through APIs for Login &amp; Register" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
