@@ -1,64 +1,64 @@
 import '../Global.css';
-import './Login.css'; // form bei register und login verändert sich aktuell noch wenn login.css fehlt, fehler muss noch behoben werden
+import './Login.css'; //CSS-Fehler
 import logo from '../assets/logo.png';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from './Button';
 import Input from './Input';
+import { fetchWithToken } from '../fetchConfig';
 
 const Login = () => {
-    // State zur Speicherung der Formular-Daten
     const [formData, setFormData] = useState({
         email: '',
         password: ''
     });
-    // State für die Fehlermeldung bei fehlgeschlagenem Login
     const [errorMessage, setErrorMessage] = useState('');
-    const navigate = useNavigate(); // Hook zur Navigation nach erfolgreichem Login
+    const navigate = useNavigate();
 
-    // Funktion zur Aktualisierung des Formular-States bei Eingabeänderungen
     const handleChange = (e) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value // Wert des geänderten Eingabefelds aktualisieren
+            [e.target.name]: e.target.value
         });
     };
 
-    // Funktion zur Verarbeitung des Formular-Submits
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Verhindert das automatische Neuladen der Seite
-        setErrorMessage(''); // Setzt die Fehlermeldung zurück
+        e.preventDefault(); // Standardverhalten verhindern
+        setErrorMessage(''); // Fehlermeldung zurücksetzen
+
         try {
-            // API-Aufruf zum Login mit den Formular-Daten
-            const response = await fetch("/auth/login", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(formData) // Konvertiert den State in JSON-Format
+            // API-Aufruf für Login
+            const response = await fetch('/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
             });
 
             if (response.ok) {
-                // Erfolgreicher Login, Token speichern und Weiterleitung
                 const data = await response.json();
-                const token = data.token; // Token aus der API-Antwort
+                const token = data.token;
 
-                // Speichern des Tokens in localStorage (für nachfolgende API-Requests)
-                localStorage.setItem('token', token);
+                if (token) {
+                    // Token im localStorage speichern
+                    localStorage.setItem('token', token);
+                    console.log('Token gespeichert:', token);
 
-                // Weiterleitung zum Dashboard
-                navigate("/");
-            }
-            else {
-                // Fehlerbehandlung bei fehlgeschlagenem Login
-                const data = await response.json();
-                setErrorMessage(data.message || "Login fehlgeschlagen. Bitte überprüfen Sie Ihre Eingaben.");
+                    // Weiterleitung nach erfolgreichem Login
+                    navigate('/');
+                } else {
+                    console.error('Kein Token in der API-Antwort enthalten.');
+                    setErrorMessage('Login fehlgeschlagen.');
+                }
+            } else {
+                const errorData = await response.json();
+                setErrorMessage(errorData.message || 'Login fehlgeschlagen.');
             }
         } catch (error) {
-            console.error("Fehler:", error);
-            setErrorMessage("Ein Fehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+            console.error('Fehler beim Login:', error);
+            setErrorMessage('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
         }
     };
+
 
     return (
         <div className="container-center">

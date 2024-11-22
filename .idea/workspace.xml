@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2332b897-2fbe-47c1-a001-c58ba2825b63" name="Changes" comment="Frontend and Backend connected through APIs for Login &amp; Register">
-      <change afterPath="$PROJECT_DIR$/frontend/src/components/Profile.jsx" afterDir="false" />
+    <list default="true" id="2332b897-2fbe-47c1-a001-c58ba2825b63" name="Changes" comment="Prfile Added">
+      <change afterPath="$PROJECT_DIR$/frontend/src/fetchConfig.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/Global.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Global.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Header.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/kotlin/com/wgorganizer/routes/AuthRoutes.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/kotlin/com/wgorganizer/routes/AuthRoutes.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Register.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,6 +96,7 @@
     "Gradle.Backend [run].executor": "Run",
     "Gradle.Build Backend.executor": "Run",
     "Kotlin.ApplicationKt.executor": "Run",
+    "Ktor.ApplicationKt.executor": "Run",
     "Node.js.Login.jsx.executor": "Debug",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
@@ -114,6 +116,7 @@
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "advanced.settings",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -127,7 +130,7 @@
       <command value="gradle build" />
     </option>
   </component>
-  <component name="RunManager" selected="Node.js.Login.jsx">
+  <component name="RunManager" selected="Gradle.Backend [run]">
     <configuration name="Backend [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -155,7 +158,7 @@
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$/Backend" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -197,6 +200,7 @@
     <configuration name="ApplicationKt" type="JetRunConfigurationType" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.wgorganizer.ApplicationKt" />
       <module name="Backend.main" />
+      <shortenClasspath name="NONE" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -220,12 +224,20 @@
     <configuration name="Login.jsx" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/frontend/src/components/Login.jsx" working-dir="$PROJECT_DIR$/frontend/src/components">
       <method v="2" />
     </configuration>
+    <list>
+      <item itemvalue="Gradle.Backend [build]" />
+      <item itemvalue="Gradle.Backend [run]" />
+      <item itemvalue="Gradle.KotlinBackend [build]" />
+      <item itemvalue="Kotlin.ApplicationKt" />
+      <item itemvalue="Ktor.ApplicationKt" />
+      <item itemvalue="Node.js.Login.jsx" />
+    </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Node.js.Login.jsx" />
         <item itemvalue="Gradle.Backend [run]" />
-        <item itemvalue="Gradle.Backend [build]" />
         <item itemvalue="Kotlin.ApplicationKt" />
+        <item itemvalue="Node.js.Login.jsx" />
+        <item itemvalue="Gradle.Backend [build]" />
         <item itemvalue="Gradle.KotlinBackend [build]" />
       </list>
     </recent_temporary>
@@ -259,7 +271,7 @@
       <workItem from="1731662260872" duration="6167000" />
       <workItem from="1731757317845" duration="6093000" />
       <workItem from="1731837956716" duration="28000" />
-      <workItem from="1732201019578" duration="7597000" />
+      <workItem from="1732201019578" duration="19049000" />
     </task>
     <task id="LOCAL-00001" summary="Backend init">
       <option name="closed" value="true" />
@@ -301,7 +313,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732115621112</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Prfile Added">
+      <option name="closed" value="true" />
+      <created>1732208707790</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1732208707790</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -326,7 +346,8 @@
     <MESSAGE value="API and Server working" />
     <MESSAGE value="Frontend aufgeräumt, Backend Funktionen ergänzt, CSS in globale Datei sortiert" />
     <MESSAGE value="Frontend and Backend connected through APIs for Login &amp; Register" />
-    <option name="LAST_COMMIT_MESSAGE" value="Frontend and Backend connected through APIs for Login &amp; Register" />
+    <MESSAGE value="Prfile Added" />
+    <option name="LAST_COMMIT_MESSAGE" value="Prfile Added" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

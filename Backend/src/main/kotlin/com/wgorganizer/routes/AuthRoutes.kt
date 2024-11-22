@@ -5,6 +5,7 @@ import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.request.*
 import com.wgorganizer.models.Users
+import com.wgorganizer.models.WGMembers
 import org.jetbrains.exposed.sql.*
 import org.jetbrains.exposed.sql.transactions.transaction
 import com.wgorganizer.security.JWTConfig
@@ -23,18 +24,17 @@ data class UserRegisterRequest(val username: String, val email: String, val pass
 data class UserLoginRequest(val email: String, val password: String)
 
 @Serializable
-data class UserProfileResponse(val userId: Int, val username: String, val email: String)
-
+data class UserProfileResponse(val userId: Int, val username: String, val email: String, val wgId: Int?)
 fun Route.authRoutes() {
     route("/auth") {
         post("/register") {
             val request = call.receive<UserRegisterRequest>()
             val passwordHash = BCrypt.hashpw(request.password, BCrypt.gensalt())
 
-            val userId = newSuspendedTransaction  {
+            val userId = newSuspendedTransaction {
                 if (Users.select { Users.email eq request.email }.count() > 0) {
                     call.respond(HttpStatusCode.Conflict, "Email bereits registriert")
-                    return@newSuspendedTransaction  null
+                    return@newSuspendedTransaction null
                 }
 
                 Users.insert {
@@ -60,7 +60,7 @@ fun Route.authRoutes() {
                 return@post
             }
 
-            val token = `JWTConfig`.generateToken(user[Users.userId])
+            val token = JWTConfig.generateToken(user[Users.userId])
             call.respond(mapOf("token" to token))
         }
 
@@ -69,16 +69,32 @@ fun Route.authRoutes() {
                 val principal = call.principal<JWTPrincipal>()
                 val userId = principal!!.payload.getClaim("userId").asInt()
 
-                val user = transaction {
-                    Users.select { Users.userId eq userId }.singleOrNull()
+                val userProfile = transaction {
+                    // Nutzerinformationen abrufen
+                    val user = Users.select { Users.userId eq userId }.singleOrNull()
+
+                    // WG-Zugehörigkeit prüfen
+                    val wgId = WGMembers.select { WGMembers.userId eq userId }
+                        .map { it[WGMembers.wgId] }
+                        .singleOrNull() // Es wird nur eine WG angenommen, falls mehrere möglich, anpassen
+
+                    if (user == null) {
+                        return@transaction null
+                    }
+
+                    UserProfileResponse(
+                        userId = user[Users.userId],
+                        username = user[Users.username],
+                        email = user[Users.email],
+                        wgId = wgId // WG-ID hinzufügen
+                    )
                 }
 
-                if (user == null) {
+                if (userProfile == null) {
                     call.respond(HttpStatusCode.NotFound, "Benutzer nicht gefunden")
-                    return@get
+                } else {
+                    call.respond(userProfile)
                 }
-
-                call.respond(UserProfileResponse(user[Users.userId], user[Users.username], user[Users.email]))
             }
 
             put("/profile") {

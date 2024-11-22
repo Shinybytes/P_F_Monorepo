@@ -1,23 +1,18 @@
 import logo from '../assets/logo.png';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import für Navigation
+import { useNavigate } from 'react-router-dom';
 import Button from './Button';
 import Input from './Input';
 
 const Register = () => {
-    // Initialisiert den State für die Formulardaten
     const [formData, setFormData] = useState({
-        username: '', // Username wird verwendet
+        username: '',
         email: '',
         password: ''
     });
-
-    // State für Fehlermeldungen oder Feedback
     const [errorMessage, setErrorMessage] = useState('');
+    const navigate = useNavigate();
 
-    const navigate = useNavigate(); // Hook zur Navigation
-
-    // Aktualisiert den State, wenn der Benutzer Eingaben macht
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -25,31 +20,31 @@ const Register = () => {
         });
     };
 
-    // Verarbeitet das Formular beim Absenden
     const handleSubmit = async (e) => {
-        e.preventDefault(); // Verhindert das Neuladen der Seite beim Absenden des Formulars
-        setErrorMessage(''); // Fehler zurücksetzen
+        e.preventDefault();
+        setErrorMessage('');
 
         try {
-            // Sendet eine POST-Anfrage an die Backend-API zur Benutzerregistrierung
-            const response = await fetch("/auth/register", { // Relativer API-Endpunkt
-                method: "POST",
+            // POST-Anfrage zur Registrierung
+            const response = await fetch('/auth/register', {
+                method: 'POST',
                 headers: {
-                    "Content-Type": "application/json"
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(formData) // Sendet die Formulardaten im JSON-Format
+                body: JSON.stringify(formData)
             });
 
             if (response.ok) {
-                navigate("/create-or-join"); // Nach erfolgreicher Registrierung zur Login-Seite navigieren
+                // Nach erfolgreicher Registrierung zur Login-Seite navigieren
+                navigate('/login');
             } else {
-                // Falls die Registrierung fehlschlägt, Fehlernachricht auslesen
+                // Fehlernachricht anzeigen, falls die Registrierung fehlschlägt
                 const data = await response.json();
-                setErrorMessage(data.message || "Fehler bei der Registrierung. Bitte versuchen Sie es erneut.");
+                setErrorMessage(data.message || 'Fehler bei der Registrierung. Bitte versuchen Sie es erneut.');
             }
         } catch (error) {
-            console.error("Fehler:", error);
-            setErrorMessage("Ein Netzwerkfehler ist aufgetreten. Bitte versuchen Sie es später erneut.");
+            console.error('Fehler:', error);
+            setErrorMessage('Ein Netzwerkfehler ist aufgetreten. Bitte versuchen Sie es später erneut.');
         }
     };
 
@@ -57,7 +52,7 @@ const Register = () => {
         <div className="container-center">
             <img src={logo} alt="FlatFlow Logo" className="logo" />
             <h2>Account anlegen</h2>
-            {errorMessage && <p className="error-message">{errorMessage}</p>} {/* Fehlermeldungen anzeigen */}
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
             <form onSubmit={handleSubmit}>
                 <Input
                     type="text"
