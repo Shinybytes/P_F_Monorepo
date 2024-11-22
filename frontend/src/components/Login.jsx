@@ -1,5 +1,5 @@
 import '../Global.css';
-import './Login.css'; //CSS-Fehler
+import './Login.css'; // CSS-Fehler
 import logo from '../assets/logo.png';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -10,7 +10,7 @@ import { fetchWithToken } from '../fetchConfig';
 const Login = () => {
     const [formData, setFormData] = useState({
         email: '',
-        password: ''
+        password: '',
     });
     const [errorMessage, setErrorMessage] = useState('');
     const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Login = () => {
     const handleChange = (e) => {
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value
+            [e.target.name]: e.target.value,
         });
     };
 
@@ -27,38 +27,40 @@ const Login = () => {
         setErrorMessage(''); // Fehlermeldung zurücksetzen
 
         try {
-            // API-Aufruf für Login
-            const response = await fetch('/auth/login', {
+            // API-Aufruf für Login mit fetchWithToken
+            const data = await fetchWithToken('/auth/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(formData),
             });
 
-            if (response.ok) {
-                const data = await response.json();
-                const token = data.token;
+            const token = data.token;
 
-                if (token) {
-                    // Token im localStorage speichern
-                    localStorage.setItem('token', token);
-                    console.log('Token gespeichert:', token);
+            if (token) {
+                // Token im localStorage speichern
+                localStorage.setItem('token', token);
+                console.log('Token gespeichert:', token);
 
-                    // Weiterleitung nach erfolgreichem Login
-                    navigate('/');
+                // Profil prüfen
+                const profile = await fetchWithToken('/auth/profile');
+                console.log('Profil-Daten:', profile);
+
+                // Logik für die Navigation basierend auf der WG-Zugehörigkeit
+                if (profile.wgId) {
+                    console.log('Benutzer gehört zu einer WG. Weiterleitung zum Dashboard.');
+                    navigate('/'); // Dashboard
                 } else {
-                    console.error('Kein Token in der API-Antwort enthalten.');
-                    setErrorMessage('Login fehlgeschlagen.');
+                    console.log('Benutzer gehört keiner WG. Weiterleitung zu create-or-join.');
+                    navigate('/create-or-join'); // WG erstellen oder beitreten
                 }
             } else {
-                const errorData = await response.json();
-                setErrorMessage(errorData.message || 'Login fehlgeschlagen.');
+                console.error('Kein Token in der API-Antwort enthalten.');
+                setErrorMessage('Login fehlgeschlagen.');
             }
         } catch (error) {
-            console.error('Fehler beim Login:', error);
+            console.error('Fehler beim Login:', error.message);
             setErrorMessage('Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.');
         }
     };
-
 
     return (
         <div className="container-center">
@@ -84,7 +86,9 @@ const Login = () => {
                 />
                 <Button type="submit">Login</Button>
             </form>
-            <Link to="/forgot-password" className="forgot-password">Passwort vergessen?</Link>
+            <Link to="/forgot-password" className="forgot-password">
+                Passwort vergessen?
+            </Link>
             <div className="register-redirect">
                 <p>Noch kein Mitglied?</p>
                 <Link to="/register" className="register-link">Neues Konto erstellen</Link>

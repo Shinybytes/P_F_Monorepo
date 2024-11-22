@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2332b897-2fbe-47c1-a001-c58ba2825b63" name="Changes" comment="Prfile Added">
-      <change afterPath="$PROJECT_DIR$/frontend/src/fetchConfig.jsx" afterDir="false" />
+    <list default="true" id="2332b897-2fbe-47c1-a001-c58ba2825b63" name="Changes" comment="fetchConfig added">
+      <change afterPath="$PROJECT_DIR$/Backend/.kotlin/sessions/kotlin-compiler-5851538279693098818.salive" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/kotlin/com/wgorganizer/routes/AuthRoutes.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/kotlin/com/wgorganizer/routes/AuthRoutes.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Register.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -271,7 +268,7 @@
       <workItem from="1731662260872" duration="6167000" />
       <workItem from="1731757317845" duration="6093000" />
       <workItem from="1731837956716" duration="28000" />
-      <workItem from="1732201019578" duration="19049000" />
+      <workItem from="1732201019578" duration="19959000" />
     </task>
     <task id="LOCAL-00001" summary="Backend init">
       <option name="closed" value="true" />
@@ -321,7 +318,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732208707790</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="fetchConfig added">
+      <option name="closed" value="true" />
+      <created>1732277457906</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1732277457906</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -347,7 +352,8 @@
     <MESSAGE value="Frontend aufgeräumt, Backend Funktionen ergänzt, CSS in globale Datei sortiert" />
     <MESSAGE value="Frontend and Backend connected through APIs for Login &amp; Register" />
     <MESSAGE value="Prfile Added" />
-    <option name="LAST_COMMIT_MESSAGE" value="Prfile Added" />
+    <MESSAGE value="fetchConfig added" />
+    <option name="LAST_COMMIT_MESSAGE" value="fetchConfig added" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
