@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import '../Global.css';
-import logo from "../assets/logo.png";
+import logo from "../assets/FlatFlow_Logo.png";
 import profil from "../assets/profil.png";
 
 const Header = () => {
@@ -36,7 +36,7 @@ const Header = () => {
     return (
         <header className="header">
             {/* Klick auf das Logo leitet zum Dashboard */}
-            <img src={logo} alt="FlatFlow Logo" className="logo" onClick={goToDashboard} style={{ cursor: 'pointer' }} />
+            <img src={logo} alt="FlatFlow_Logo" className="logo" onClick={goToDashboard} style={{ cursor: 'pointer' }} />
             <div className="profile">
                 <img
                     src={profil}
