@@ -1,6 +1,6 @@
 import '../Global.css';
 import './Login.css'; // CSS-Fehler
-import logo from '../assets/logo.png';
+import logo from '../assets/FlatFlow_Logo.png';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from './Button';
