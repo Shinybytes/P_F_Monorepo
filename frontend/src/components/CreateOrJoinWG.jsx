@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import Button from './Button';
 import Input from './Input';
-import logo from '../assets/logo.png';
+import logo from '../assets/FlatFlow_Logo.png';
 
 
 // Hauptkomponente für das Erstellen oder Beitreten einer WG

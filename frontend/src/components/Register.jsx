@@ -1,6 +1,6 @@
-import logo from '../assets/logo.png';
+import logo from '../assets/FlatFlow_Logo.png';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Button from './Button';
 import Input from './Input';
 
@@ -50,7 +50,7 @@ const Register = () => {
 
     return (
         <div className="container-center">
-            <img src={logo} alt="FlatFlow Logo" className="logo" />
+            <img src={logo} alt="FlatFlow Logo" className="logo"/>
             <h2>Account anlegen</h2>
             {errorMessage && <p className="error-message">{errorMessage}</p>}
             <form onSubmit={handleSubmit}>
@@ -80,6 +80,10 @@ const Register = () => {
                 />
                 <Button type="submit">Registrieren</Button>
             </form>
+            <div className="login-redirect">
+                <p>Du bist schon Mitglied?</p>
+                <Link to="/login" className="login-link">Hier geht es zum Login</Link>
+            </div>
         </div>
     );
 };

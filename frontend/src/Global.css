@@ -55,22 +55,22 @@ h2 {
 }
 
 /* Login CSS */
-.forgot-password, .register-link {
+.forgot-password, .register-link, .login-link {
   color: #007bff;
   text-decoration: none;
   font-size: 16px;
   margin-top: 10px;
 }
 
-.forgot-password:hover, .register-link:hover {
+.forgot-password:hover, .register-link:hover, .login-link:hover {
   text-decoration: underline;
 }
 
-.register-redirect {
+.register-redirect, .login-redirect {
   margin-top: 20px;
 }
 
-.register-redirect p {
+.register-redirect p, .login-redirect p {
   font-size: 16px;
   color: #666;
   margin: 0;
