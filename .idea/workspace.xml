@@ -4,13 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2332b897-2fbe-47c1-a001-c58ba2825b63" name="Changes" comment="fetchConfig added">
+    <list default="true" id="2332b897-2fbe-47c1-a001-c58ba2825b63" name="Changes" comment="new api route members">
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1e63d878-d7eb-46d6-a854-9b9fe0d0b6b2.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1e63d878-d7eb-46d6-a854-9b9fe0d0b6b2/storage_v2/_src_/database/neondb.1Hh4wQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1e63d878-d7eb-46d6-a854-9b9fe0d0b6b2/storage_v2/_src_/database/neondb.1Hh4wQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/build.gradle.kts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Backend/src/main/kotlin/com/wgorganizer/Application.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/kotlin/com/wgorganizer/Application.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -348,7 +345,31 @@
       <option name="project" value="LOCAL" />
       <updated>1733151948436</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="Cors und fixed API Path">
+      <option name="closed" value="true" />
+      <created>1733154621783</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1733154621783</updated>
+    </task>
+    <task id="LOCAL-00011" summary="API Path 2">
+      <option name="closed" value="true" />
+      <created>1733154866708</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1733154866708</updated>
+    </task>
+    <task id="LOCAL-00012" summary="new api route members">
+      <option name="closed" value="true" />
+      <created>1733158355616</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1733158355616</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -376,7 +397,10 @@
     <MESSAGE value="Prfile Added" />
     <MESSAGE value="fetchConfig added (1)" />
     <MESSAGE value="fetchConfig added" />
-    <option name="LAST_COMMIT_MESSAGE" value="fetchConfig added" />
+    <MESSAGE value="Cors und fixed API Path" />
+    <MESSAGE value="API Path 2" />
+    <MESSAGE value="new api route members" />
+    <option name="LAST_COMMIT_MESSAGE" value="new api route members" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
