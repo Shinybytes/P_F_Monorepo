@@ -48,7 +48,7 @@ const Dashboard = () => {
     const addTask = async (newTask) => {
         try {
             const token = localStorage.getItem('token'); // Token für den API-Call abrufen
-            const response = await fetch("http://localhost:8080/tasks", {
+            const response = await fetch("http://localhost:8080/todos", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
