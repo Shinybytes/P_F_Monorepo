@@ -76,7 +76,7 @@ fun Route.authRoutes() {
                     // WG-Zugehörigkeit prüfen
                     val wgId = WGMembers.select { WGMembers.userId eq userId }
                         .map { it[WGMembers.wgId] }
-                        .singleOrNull() // Es wird nur eine WG angenommen, falls mehrere möglich, anpassen
+                        .singleOrNull() // Es wird nur eine WG angenommen
 
                     if (user == null) {
                         return@transaction null
