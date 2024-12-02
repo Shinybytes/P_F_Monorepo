@@ -23,7 +23,7 @@ const Dashboard = () => {
     const loadTasks = async () => {
         try {
             const token = localStorage.getItem('token'); // Token für den API-Call abrufen
-            const response = await fetch("http://localhost:8080/tasks", {
+            const response = await fetch("http://localhost:8080/todos", {
                 headers: {
                     Authorization: `Bearer ${token}` // Token im Authorization-Header senden
                 }

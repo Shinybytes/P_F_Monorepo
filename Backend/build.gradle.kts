@@ -44,6 +44,7 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-jdbc:0.36.2")
     implementation("org.postgresql:postgresql:42.3.1")
     implementation("io.ktor:ktor-server-core:2.3.2")
+    implementation("io.ktor:ktor-server-cors:2.3.2")
     implementation("io.ktor:ktor-server-netty:2.3.2")
     implementation("io.ktor:ktor-server-auth:2.3.2")
     implementation("io.ktor:ktor-server-auth-jwt:2.3.2")
