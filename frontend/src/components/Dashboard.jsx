@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import für Navigation
+import { useNavigate } from 'react-router-dom';
 import '../Global.css';
 import AddTaskPopup from './AddTaskPopup';
 import Header from './Header';
@@ -7,30 +7,79 @@ import Header from './Header';
 const Dashboard = () => {
     const [tasks, setTasks] = useState([]); // State für Aufgaben
     const [showPopup, setShowPopup] = useState(false);
-    const navigate = useNavigate(); // Hook zur Navigation
+    const navigate = useNavigate();
+    const [wg, setWg] = useState(null); // State für WG-Daten
+    const [users, setUsers] = useState({}); // State für Benutzerdaten
 
     // Überprüft, ob der Benutzer eingeloggt ist
     const checkAuthentication = () => {
-        const token = localStorage.getItem('token'); // Token aus localStorage abrufen
+        const token = localStorage.getItem('token');
         if (!token) {
-            // Wenn kein Token vorhanden ist, Benutzer zur Login-Seite weiterleiten
             alert("Bitte logge dich ein, um das Dashboard zu nutzen.");
             navigate('/login');
+        }
+    };
+
+    // Funktion zum Laden der Benutzerdaten
+    const loadUserData = async (userId) => {
+        if (users[userId]) return; // Verhindert mehrfaches Laden
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:8080/users/${userId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setUsers(prevUsers => ({ ...prevUsers, [userId]: data }));
+            } else {
+                console.error("Fehler beim Laden der Benutzerdaten:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Fehler beim Laden der Benutzerdaten:", error);
+        }
+    };
+
+    // Funktion zum Laden der WG-Daten
+    const loadWgData = async (wgId) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:8080/wg/${wgId}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setWg(data);
+            } else {
+                console.error("Fehler beim Laden der WG-Daten:", response.statusText);
+            }
+        } catch (error) {
+            console.error("Fehler beim Laden der WG-Daten:", error);
         }
     };
 
     // Funktion zum Laden der Aufgaben aus der Datenbank
     const loadTasks = async () => {
         try {
-            const token = localStorage.getItem('token'); // Token für den API-Call abrufen
+            const token = localStorage.getItem('token');
             const response = await fetch("http://localhost:8080/todos", {
                 headers: {
-                    Authorization: `Bearer ${token}` // Token im Authorization-Header senden
+                    Authorization: `Bearer ${token}`
                 }
             });
             if (response.ok) {
                 const data = await response.json();
-                setTasks(data); // Aufgaben in den State setzen
+                setTasks(data);
+                if (data.length > 0) {
+                    // Laden der WG-Daten
+                    loadWgData(data[0].wgId);
+                    // Laden der Benutzerdaten für "assignedTo"
+                    const userIds = [...new Set(data.map(task => task.assignedTo))];
+                    userIds.forEach(userId => loadUserData(userId));
+                }
             } else {
                 console.error("Fehler beim Laden der Aufgaben:", response.statusText);
             }
@@ -40,24 +89,30 @@ const Dashboard = () => {
     };
 
     useEffect(() => {
-        checkAuthentication(); // Authentifizierung prüfen
-        loadTasks(); // Aufgaben laden
+        checkAuthentication();
+        loadTasks();
     }, []);
 
     // Funktion zum Hinzufügen einer Aufgabe
     const addTask = async (newTask) => {
         try {
-            const token = localStorage.getItem('token'); // Token für den API-Call abrufen
+            const token = localStorage.getItem('token');
             const response = await fetch("http://localhost:8080/todos", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    Authorization: `Bearer ${token}` // Token im Authorization-Header senden
+                    Authorization: `Bearer ${token}`
                 },
                 body: JSON.stringify(newTask)
             });
             if (response.ok) {
-                loadTasks(); // Aufgaben neu laden, um die aktuelle Liste zu sehen
+                const result = await response.json();
+                const addedTask = { ...newTask, todoId: result.todoId };
+                setTasks(prevTasks => [...prevTasks, addedTask]);
+                // Laden der Benutzerdaten für "assignedTo", falls noch nicht vorhanden
+                if (!users[addedTask.assignedTo]) {
+                    loadUserData(addedTask.assignedTo);
+                }
             } else {
                 console.error("Fehler beim Hinzufügen der Aufgabe:", response.statusText);
             }
@@ -66,27 +121,51 @@ const Dashboard = () => {
         }
     };
 
+    // Hilfsfunktionen zur Statusanzeige
+    const getStatusClassName = (status) => {
+        return status === 'Completed' ? 'status-done' : 'status-open';
+    };
+
+    const translateStatus = (status) => {
+        switch(status) {
+            case 'Pending':
+                return 'Offen';
+            case 'Completed':
+                return 'Erledigt';
+            default:
+                return status;
+        }
+    };
+
     return (
         <div className="dashboard-container">
             <Header />
-            <h2>WG Name</h2>
+            <h2>{wg ? wg.name : 'WG Name'}</h2>
             <table>
                 <thead>
                 <tr>
                     <th>ToDo</th>
                     <th>Zuständig</th>
-                    <th>Kategorie</th>
+                    <th>Priorität</th>
                     <th>Status</th>
+                    <th>Fälligkeitsdatum</th>
                 </tr>
                 </thead>
                 <tbody>
                 {tasks.map(task => (
-                    <tr key={task.id}>
+                    <tr key={task.todoId}>
                         <td>{task.title}</td>
-                        <td>{task.person}</td>
-                        <td>{task.category}</td>
-                        <td className={task.status === 'erledigt' ? 'status-done' : 'status-open'}>
-                            {task.status}
+                        <td>{task.assignedTo}</td>
+                        <td>{task.priority}</td>
+                        <td> {task.status}</td>
+                        <td>
+                            {new Date(task.dueDate).toLocaleString('de-DE', {
+                                day: '2-digit',
+                                month: '2-digit',
+                                year: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit',
+                            })}
                         </td>
                     </tr>
                 ))}
@@ -96,7 +175,7 @@ const Dashboard = () => {
             {showPopup && (
                 <AddTaskPopup
                     onClose={() => setShowPopup(false)}
-                    onSave={addTask} // addTask als onSave-Funktion übergeben
+                    onSave={addTask}
                 />
             )}
         </div>

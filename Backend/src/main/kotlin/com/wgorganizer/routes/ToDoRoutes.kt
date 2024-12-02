@@ -1,7 +1,6 @@
 package com.wgorganizer.routes
 
 import io.ktor.server.routing.*
-import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.request.*
 import com.wgorganizer.models.*
@@ -33,7 +32,7 @@ data class ToDoResponse(
     val description: String?,
     val priority: Int,
     val status: String,
-    val assignedTo: Int?,
+    val assignedTo: String,
     val dueDate: String?,
     val createdAt: String
 )
@@ -67,7 +66,7 @@ fun Route.toDoRoutes() {
                         it[title] = request.title
                         it[description] = request.description
                         it[priority] = request.priority
-                        it[status] = "Pending"
+                        it[status] = "Unerledigt"
                         it[assignedTo] = request.assignedTo
                         it[dueDate] = request.dueDate?.let { LocalDateTime.parse(it) }
                         it[createdAt] = LocalDateTime.now()
@@ -86,18 +85,22 @@ fun Route.toDoRoutes() {
                     // WGs, in denen der Benutzer Mitglied ist
                     val userWGs = WGMembers.select { WGMembers.userId eq userId }.map { it[WGMembers.wgId] }
 
-                    // Aufgaben dieser WGs abrufen
-                    ToDos.select { ToDos.wgId inList userWGs }.map {
+                    // Aufgaben dieser WGs mit Benutzernamen der zugewiesenen Person abrufen
+                    val query = ToDos
+                        .leftJoin(Users, { ToDos.assignedTo }, { Users.userId })
+                        .select { ToDos.wgId inList userWGs }
+
+                    query.map {
                         ToDoResponse(
-                            it[ToDos.todoId],
-                            it[ToDos.wgId],
-                            it[ToDos.title],
-                            it[ToDos.description],
-                            it[ToDos.priority],
-                            it[ToDos.status],
-                            it[ToDos.assignedTo],
-                            it[ToDos.dueDate]?.toString(),
-                            it[ToDos.createdAt].toString()
+                            todoId = it[ToDos.todoId],
+                            wgId = it[ToDos.wgId],
+                            title = it[ToDos.title],
+                            description = it[ToDos.description],
+                            priority = it[ToDos.priority],
+                            status = it[ToDos.status],
+                            assignedTo = it[Users.username], // Hier holen wir den Benutzernamen
+                            dueDate = it[ToDos.dueDate]?.toString(),
+                            createdAt = it[ToDos.createdAt].toString()
                         )
                     }
                 }

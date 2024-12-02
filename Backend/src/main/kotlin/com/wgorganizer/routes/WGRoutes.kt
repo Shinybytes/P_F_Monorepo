@@ -23,6 +23,10 @@ data class WGJoinRequest(val name: String)
 @Serializable
 data class WGResponse(val wgId: Int, val name: String, val createdAt: String)
 
+@Serializable
+data class UserResponse(val userId: Int, val username: String, val email: String, val createdAt: String)
+
+
 fun Route.wgRoutes() {
     authenticate {
         route("/wg") {
@@ -98,6 +102,40 @@ fun Route.wgRoutes() {
                         wg[WGs.createdAt].toString()
                     )
                 )
+            }
+            get("/{id}/members") {
+                val wgId = call.parameters["id"]?.toIntOrNull()
+                if (wgId == null) {
+                    call.respond(HttpStatusCode.BadRequest, "Ungültige WG-ID")
+                    return@get
+                }
+
+                // Überprüfen, ob die WG existiert
+                val wgExists = transaction {
+                    WGs.select { WGs.wgId eq wgId }.count() > 0
+                }
+
+                if (!wgExists) {
+                    call.respond(HttpStatusCode.NotFound, "WG nicht gefunden")
+                    return@get
+                }
+
+                // Mitglieder der WG abrufen
+                val members = transaction {
+                    (WGMembers innerJoin Users)
+                        .slice(Users.userId, Users.username, Users.email, Users.createdAt)
+                        .select { WGMembers.wgId eq wgId }
+                        .map {
+                            UserResponse(
+                                userId = it[Users.userId],
+                                username = it[Users.username],
+                                email = it[Users.email],
+                                createdAt = it[Users.createdAt].toString()
+                            )
+                        }
+                }
+
+                call.respond(members)
             }
         }
     }
