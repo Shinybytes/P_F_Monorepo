@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '../Global.css';
 import AddTaskPopup from './AddTaskPopup';
 import Header from './Header';
+import {ModeToggle} from "@/components/mode-toggle.jsx";
 
 const Dashboard = () => {
     const [tasks, setTasks] = useState([]); // State für Aufgaben

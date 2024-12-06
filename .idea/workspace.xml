@@ -4,17 +4,52 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2332b897-2fbe-47c1-a001-c58ba2825b63" name="Changes" comment="fetchConfig added (1)">
+    <list default="true" id="2332b897-2fbe-47c1-a001-c58ba2825b63" name="Changes" comment="new api route members">
+      <change afterPath="$PROJECT_DIR$/frontend/components.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/jsconfig.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/postcss.config.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/dashboard/page.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/login/page.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/Homepage.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/app-sidebar.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/login-form.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/mode-toggle.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/nav-main.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/sidebar-opt-in-form.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/theme-provider.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/aspect-ratio.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/breadcrumb.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/button.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/card.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/checkbox.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/data-table.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/dropdown-menu.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/input.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/label.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/separator.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/sheet.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/sidebar.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/skeleton.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/table.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/components/ui/tooltip.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/hooks/use-mobile.jsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/lib/utils.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/oldGlobal.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/tailwind.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/1e63d878-d7eb-46d6-a854-9b9fe0d0b6b2/storage_v2/_src_/database/neondb.1Hh4wQ/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/1e63d878-d7eb-46d6-a854-9b9fe0d0b6b2/storage_v2/_src_/database/neondb.1Hh4wQ/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Backend/src/main/kotlin/com/wgorganizer/routes/AuthRoutes.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/kotlin/com/wgorganizer/routes/AuthRoutes.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/App.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/Global.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/Global.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/CreateOrJoinWG.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/CreateOrJoinWG.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/components/Login.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Dashboard.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/components/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Login.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/components/Register.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/components/Register.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/vite.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/vite.config.js" afterDir="false" />
     </list>
+    <list id="c692be9b-6e2b-4e66-ae35-9d9027fa2dbb" name="Changes by ferdistadler" comment="" />
+    <list id="3c958cc6-1364-4e3b-b82d-290bca319f9d" name="Changes by Pia Roth" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,14 +69,12 @@
         <task path="$PROJECT_DIR$/Backend">
           <activation />
         </task>
+        <task path="$PROJECT_DIR$/KotlinBackend">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
-            <expand>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="Backend" type="f1a62948:ProjectNode" />
-              </path>
-            </expand>
+            <expand />
             <select />
           </tree_state>
         </projects_view>
@@ -91,43 +124,45 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;Gradle.Backend [build].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Backend [run].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.Build Backend.executor&quot;: &quot;Run&quot;,
-    &quot;Kotlin.ApplicationKt.executor&quot;: &quot;Run&quot;,
-    &quot;Ktor.ApplicationKt.executor&quot;: &quot;Run&quot;,
-    &quot;Node.js.Login.jsx.executor&quot;: &quot;Debug&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Pia Roth/Java&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;advanced.settings&quot;,
-    &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\IntelliJ IDEA 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "Gradle.Backend [build].executor": "Run",
+    "Gradle.Backend [run].executor": "Run",
+    "Gradle.Build Backend.executor": "Run",
+    "Kotlin.ApplicationKt.executor": "Run",
+    "Ktor.ApplicationKt.executor": "Run",
+    "Node.js.Login.jsx.executor": "Debug",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "5-shadcn-rebuild",
+    "ignore.virus.scanning.warn.message": "true",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Pia Roth/Java",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.standard": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.standard": "",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_interpreter_path": "node",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "advanced.settings",
+    "ts.external.directory.path": "C:\\Program Files\\JetBrains\\IntelliJ IDEA 2023.2.5\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
+    "vue.rearranger.settings.migration": "true"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RunAnythingCache">
     <option name="myCommands">
       <command value="gradle build" />
@@ -209,7 +244,6 @@
       </method>
     </configuration>
     <configuration name="ApplicationKt" type="KtorApplicationConfigurationType" factoryName="Ktor" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.wgorganizer.ApplicationKt" />
       <module name="Backend.main" />
       <option name="alternativeJrePath" />
       <option name="alternativeJrePathEnabled" value="false" />
@@ -280,6 +314,8 @@
       <workItem from="1733047010760" duration="1765000" />
       <workItem from="1733157194688" duration="883000" />
       <workItem from="1733158128522" duration="2469000" />
+      <workItem from="1733162923870" duration="18432000" />
+      <workItem from="1733474394616" duration="3881000" />
     </task>
     <task id="LOCAL-00001" summary="Backend init">
       <option name="closed" value="true" />

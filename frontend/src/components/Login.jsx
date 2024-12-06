@@ -1,12 +1,19 @@
-import '../Global.css';
-import logo from '../assets/logo.png';
+import { Button } from "@/components/ui/button";
+import {
+    Card,
+    CardContent,
+    CardDescription,
+    CardHeader,
+    CardTitle,
+} from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import logo from "@/assets/logo.png";
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import Button from './Button';
-import Input from './Input';
 import { fetchWithToken } from '../fetchConfig';
 
-const Login = () => {
+export function Login() {
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -43,7 +50,7 @@ const Login = () => {
                 const profile = await fetchWithToken('/auth/profile');
                 console.log('Profil-Daten:', profile);
 
-                // Logik für die Navigation basierend auf der WG-Zugehörigkeit
+                // Navigation basierend auf der WG-Zugehörigkeit
                 if (profile.wgId) {
                     console.log('Benutzer gehört zu einer WG. Weiterleitung zum Dashboard.');
                     navigate('/'); // Dashboard
@@ -62,38 +69,66 @@ const Login = () => {
     };
 
     return (
-        <div className="container-center">
-            <img src={logo} alt="FlatFlow Logo" className="logo" />
-            <h2>Login</h2>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <form onSubmit={handleSubmit}>
-                <Input
-                    type="email"
-                    name="email"
-                    placeholder="E-Mail"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-                <Input
-                    type="password"
-                    name="password"
-                    placeholder="Passwort"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-                <Button type="submit">Login</Button>
-            </form>
-            <Link to="/forgot-password" className="forgot-password">
-                Passwort vergessen?
-            </Link>
-            <div className="register-redirect">
-                <p>Noch kein Mitglied?</p>
-                <Link to="/register" className="register-link">Neues Konto erstellen</Link>
-            </div>
+        <div className="flex h-screen w-full items-center justify-center px-4">
+            <Card className="mx-auto max-w-sm">
+                <div className="flex justify-center items-center h-24">
+                    <img
+                        src={logo}
+                        alt="FlatFlow Logo"
+                        className="h-2/3 object-contain"
+                    />
+                </div>
+                <CardHeader>
+                    <CardTitle className="text-2xl">Login</CardTitle>
+                    <CardDescription>
+                        Geben Sie Ihre E-Mail-Adresse ein, um sich anzumelden
+                    </CardDescription>
+                </CardHeader>
+                <CardContent>
+                    <form onSubmit={handleSubmit}>
+                        <div className="grid gap-4">
+                            <div className="grid gap-2">
+                                <Label htmlFor="email">Email</Label>
+                                <Input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    placeholder="m@example.com"
+                                    required
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            <div className="grid gap-2">
+                                <div className="flex items-center">
+                                    <Label htmlFor="password">Passwort</Label>
+                                    <Link to="/forgot-password" className="ml-auto inline-block text-sm underline">
+                                        Passwort vergessen?
+                                    </Link>
+                                </div>
+                                <Input
+                                    id="password"
+                                    name="password"
+                                    type="password"
+                                    required
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                />
+                            </div>
+                            {errorMessage && <p className="error-message">{errorMessage}</p>}
+                            <Button type="submit" className="w-full">
+                                Login
+                            </Button>
+                        </div>
+                    </form>
+                    <div className="mt-4 text-center text-sm">
+                        Noch kein Konto?{' '}
+                        <Link to="/register" className="underline">
+                            Registrieren
+                        </Link>
+                    </div>
+                </CardContent>
+            </Card>
         </div>
     );
-};
-
-export default Login;
+}
