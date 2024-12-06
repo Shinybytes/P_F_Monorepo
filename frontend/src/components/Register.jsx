@@ -1,8 +1,12 @@
-import logo from '../assets/FlatFlow_Logo.png';
+import logo from '../assets/logo.png';
 import { useState } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
-import Button from './Button';
-import Input from './Input';
+import {Card, CardContent, CardDescription, CardHeader, CardTitle} from "@/components/ui/card.jsx";
+import {Label} from "@/components/ui/label.jsx";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+
 
 const Register = () => {
     const [formData, setFormData] = useState({
@@ -49,41 +53,76 @@ const Register = () => {
     };
 
     return (
-        <div className="container-center">
-            <img src={logo} alt="FlatFlow Logo" className="logo"/>
-            <h2>Account anlegen</h2>
-            {errorMessage && <p className="error-message">{errorMessage}</p>}
-            <form onSubmit={handleSubmit}>
-                <Input
-                    type="text"
-                    name="username"
-                    placeholder="Benutzername"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required
+    <div className="flex h-screen w-full items-center justify-center px-4">
+        <Card className="mx-auto max-w-sm">
+            <div className="flex justify-center items-center h-24">
+                <img
+                    src={logo}
+                    alt="FlatFlow Logo"
+                    className="h-2/3 object-contain"
                 />
-                <Input
-                    type="email"
-                    name="email"
-                    placeholder="E-Mail"
-                    value={formData.email}
-                    onChange={handleChange}
-                    required
-                />
-                <Input
-                    type="password"
-                    name="password"
-                    placeholder="Passwort"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-                <Button type="submit">Registrieren</Button>
-            </form>
-            <div className="login-redirect">
-                <p>Du bist schon Mitglied?</p>
-                <Link to="/login" className="login-link">Hier geht es zum Login</Link>
             </div>
+            <CardHeader>
+                <CardTitle className="text-2xl">Registrieren</CardTitle>
+                <CardDescription>
+                    Geben Sie Ihre E-Mail-Adresse, einen Usernamen und ein Passwort ein, um sich zu registrieren
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <form onSubmit={handleSubmit}>
+                    <div className="grid gap-4">
+                        <div className="grid gap-2">
+                            <Label htmlFor="email">Email</Label>
+                            <Input
+                                id="email"
+                                name="email"
+                                type="email"
+                                placeholder="m@example.com"
+                                required
+                                value={formData.email}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="grid gap-2">
+                            <div className="flex items-center">
+                                <Label htmlFor="username">Username</Label>
+                            </div>
+                            <Input
+                                id="username"
+                                name="username"
+                                type="username"
+                                required
+                                value={formData.username}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <div className="grid gap-2">
+                            <div className="flex items-center">
+                                <Label htmlFor="password">Passwort</Label>
+                            </div>
+                            <Input
+                                id="password"
+                                name="password"
+                                type="password"
+                                required
+                                value={formData.password}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        {errorMessage && <p className="error-message">{errorMessage}</p>}
+                        <Button type="submit" className="w-full">
+                            Registrieren
+                        </Button>
+                    </div>
+                </form>
+                <div className="mt-4 text-center text-sm">
+                    Doch schon ein Konto?{' '}
+                    <Link to="/login" className="underline">
+                        Login
+                    </Link>
+                </div>
+            </CardContent>
+        </Card>
         </div>
     );
 };

@@ -13,6 +13,7 @@ import io.ktor.server.auth.*
 import io.ktor.http.*
 import io.ktor.server.auth.jwt.*
 import kotlinx.serialization.Serializable
+import org.jetbrains.exposed.sql.SqlExpressionBuilder.eq
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.time.LocalDateTime
 import org.mindrot.jbcrypt.BCrypt
@@ -76,7 +77,7 @@ fun Route.authRoutes() {
                     // WG-Zugehörigkeit prüfen
                     val wgId = WGMembers.select { WGMembers.userId eq userId }
                         .map { it[WGMembers.wgId] }
-                        .singleOrNull() // Es wird nur eine WG angenommen, falls mehrere möglich, anpassen
+                        .singleOrNull() // Es wird nur eine WG angenommen
 
                     if (user == null) {
                         return@transaction null
@@ -114,6 +115,36 @@ fun Route.authRoutes() {
 
                 call.respond(HttpStatusCode.OK, "Profil aktualisiert")
             }
+
+            delete("/profile") {
+                val principal = call.principal<JWTPrincipal>()
+                if (principal == null) {
+                    call.respond(HttpStatusCode.Unauthorized, "Nicht authentifiziert")
+                    return@delete
+                }
+
+                val userId = principal.payload.getClaim("userId").asInt()
+
+                try {
+                    val rowsDeleted = newSuspendedTransaction {
+                        // Verbundene Einträge in WGMembers löschen
+                        WGMembers.deleteWhere { WGMembers.userId eq userId }
+
+                        // Benutzer löschen
+                        Users.deleteWhere { Users.userId eq userId }
+                    }
+
+                    if (rowsDeleted > 0) {
+                        call.respond(HttpStatusCode.OK, "Profil gelöscht")
+                    } else {
+                        call.respond(HttpStatusCode.NotFound, "Benutzer nicht gefunden")
+                    }
+                } catch (e: Exception) {
+                    call.application.log.error("Fehler beim Löschen des Profils", e)
+                    call.respond(HttpStatusCode.InternalServerError, "Fehler beim Löschen des Profils")
+                }
+            }
+
         }
     }
 }
