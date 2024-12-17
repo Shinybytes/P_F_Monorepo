@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import '../Global.css';
 
-
-// Definition der Button-Komponente mit Destrukturierung der Props
-const Input = ({ type, name, placeholder, value, onChange }) => (
+const Input = ({ type, name, placeholder, value, onChange, required = true }) => (
     <input
         type={type}
         name={name}
@@ -11,7 +9,7 @@ const Input = ({ type, name, placeholder, value, onChange }) => (
         value={value}
         onChange={onChange}
         className="custom-input"
-        required
+        required={required}
     />
 );
 
@@ -21,7 +19,8 @@ Input.propTypes = {
     name: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired,
     value: PropTypes.string.isRequired,
-    onChange: PropTypes.func.isRequired
+    onChange: PropTypes.func.isRequired,
+    required: PropTypes.bool, // required als optionales Prop
 };
 
 export default Input;

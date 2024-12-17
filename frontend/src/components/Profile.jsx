@@ -14,7 +14,7 @@ const Profile = () => {
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
-    // Lädt die aktuellen Benutzerdaten (Initialisierung)
+    // Lädt die aktuellen Benutzerdaten
     const loadUserData = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -41,7 +41,6 @@ const Profile = () => {
         }
     };
 
-    // Wird bei der ersten Komponentendarstellung ausgeführt
     useState(() => {
         loadUserData();
     }, []);
@@ -49,6 +48,16 @@ const Profile = () => {
     // Aktualisiert die Benutzerdaten
     const handleUpdate = async (e) => {
         e.preventDefault();
+
+        // Neues Objekt ohne leeres Passwort erstellen
+        const updatedData = {
+            username: userData.username,
+            email: userData.email,
+        };
+        if (userData.password.trim()) {
+            updatedData.password = userData.password;
+        }
+
         try {
             const token = localStorage.getItem('token');
             const response = await fetch('/auth/profile', {
@@ -57,7 +66,7 @@ const Profile = () => {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify(userData),
+                body: JSON.stringify(updatedData),
             });
 
             if (response.ok) {
@@ -86,7 +95,7 @@ const Profile = () => {
                 localStorage.removeItem('token'); // Token entfernen
                 setMessage('Konto erfolgreich gelöscht. Sie werden ausgeloggt...');
                 setTimeout(() => {
-                    navigate('/register'); // Nach 3 Sekunden zur Registrierungsseite
+                    navigate('/register');
                 }, 3000);
             } else {
                 setMessage('Fehler beim Löschen des Kontos.');
@@ -132,16 +141,18 @@ const Profile = () => {
                         placeholder="Neues Passwort"
                         value={userData.password}
                         onChange={handleChange}
+                        required={false}
                     />
+
                     <Button type="submit">Speichern</Button>
                     <Button onClick={handleDeleteAccount} className="delete-button">
                         Konto löschen
                     </Button>
                 </form>
-
             </div>
         </>
     );
 };
 
 export default Profile;
+

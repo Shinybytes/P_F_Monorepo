@@ -2,28 +2,28 @@ import '../Global.css';
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
 
-const AddTaskPopup = ({ onClose, onTaskAdded }) => {
+const AddTaskPopup = ({ onClose, onTaskAdded, existingTask }) => {
     const [taskData, setTaskData] = useState({
         title: '',
         description: '',
-        priority: 3,
-        assignedTo: '',
+        priority: 4, // Standardwert für "Keine Angabe"
+        assignedTo: null, // Standardwert für "Keine Angabe"
         dueDate: '',
     });
     const [wgId, setWgId] = useState(null); // WG-ID wird automatisch ermittelt
+    const [members, setMembers] = useState([]); // WG-Mitglieder
 
     // WG-ID über API laden
     const fetchWgId = async () => {
         try {
             const token = localStorage.getItem('token');
             const response = await fetch('http://localhost:8080/auth/profile', {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                headers: { Authorization: `Bearer ${token}` },
             });
             if (response.ok) {
                 const data = await response.json();
-                setWgId(data.wgId); // WG-ID aus Profil-Daten setzen
+                setWgId(data.wgId);
+                fetchWgMembers(data.wgId); // Lade WG-Mitglieder
             } else {
                 console.error('Fehler beim Laden der WG-ID:', response.statusText);
             }
@@ -32,15 +32,42 @@ const AddTaskPopup = ({ onClose, onTaskAdded }) => {
         }
     };
 
+    // WG-Mitglieder laden
+    const fetchWgMembers = async (wgId) => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await fetch(`http://localhost:8080/wg/${wgId}/members`, {
+                headers: { Authorization: `Bearer ${token}` },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                setMembers(data);
+            } else {
+                console.error('Fehler beim Laden der Mitglieder:', response.statusText);
+            }
+        } catch (error) {
+            console.error('Fehler beim Laden der Mitglieder:', error);
+        }
+    };
+
     useEffect(() => {
-        fetchWgId(); // WG-ID laden, sobald das Popup geöffnet wird
-    }, []);
+        fetchWgId(); // WG-ID und Mitglieder laden
+        if (existingTask) {
+            setTaskData({
+                title: existingTask.title || '',
+                description: existingTask.description || '',
+                priority: existingTask.priority || 4, // Standard auf 4 für "Keine Angabe"
+                assignedTo: existingTask.assignedTo || null, // Standard auf null für "Keine Angabe"
+                dueDate: existingTask.dueDate || '',
+            });
+        }
+    }, [existingTask]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setTaskData({
             ...taskData,
-            [name]: value,
+            [name]: name === 'priority' ? parseInt(value) || 4 : value,
         });
     };
 
@@ -50,34 +77,48 @@ const AddTaskPopup = ({ onClose, onTaskAdded }) => {
             console.error('WG-ID konnte nicht ermittelt werden.');
             return;
         }
+
+        // Optional-Felder korrekt setzen (null oder Standardwert senden)
+        const payload = {
+            title: taskData.title,
+            description: taskData.description || null,
+            priority: taskData.priority || 4, // Standardwert für "Keine Angabe"
+            assignedTo: taskData.assignedTo || null,
+            dueDate: taskData.dueDate || null,
+            wgId,
+        };
+
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch('http://localhost:8080/todos', {
-                method: 'POST',
+            const method = existingTask ? 'PUT' : 'POST';
+            const url = existingTask
+                ? `http://localhost:8080/todos/${existingTask.todoId}`
+                : 'http://localhost:8080/todos';
+
+            const response = await fetch(url, {
+                method,
                 headers: {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({
-                    ...taskData,
-                    wgId, // Automatisch ermittelte WG-ID hinzufügen
-                }),
+                body: JSON.stringify(payload),
             });
+
             if (response.ok) {
                 onTaskAdded(); // Aktualisiere Aufgaben im Dashboard
                 onClose(); // Schließe das Popup
             } else {
-                console.error('Fehler beim Hinzufügen der Aufgabe:', response.statusText);
+                console.error('Fehler beim Speichern der Aufgabe:', response.statusText);
             }
         } catch (error) {
-            console.error('Fehler beim Hinzufügen der Aufgabe:', error);
+            console.error('Fehler beim Speichern der Aufgabe:', error);
         }
     };
 
     return (
         <div className="popup-container">
             <div className="popup">
-                <h3>Neue Aufgabe hinzufügen</h3>
+                <h3>{existingTask ? 'Aufgabe bearbeiten' : 'Neue Aufgabe hinzufügen'}</h3>
                 <form onSubmit={handleSubmit}>
                     <input
                         type="text"
@@ -90,7 +131,7 @@ const AddTaskPopup = ({ onClose, onTaskAdded }) => {
                     <input
                         type="text"
                         name="description"
-                        placeholder="Beschreibung"
+                        placeholder="Beschreibung (optional)"
                         value={taskData.description}
                         onChange={handleChange}
                     />
@@ -99,29 +140,37 @@ const AddTaskPopup = ({ onClose, onTaskAdded }) => {
                         value={taskData.priority}
                         onChange={handleChange}
                     >
-                        <option value={1}>Hoch</option>
-                        <option value={2}>Mittel</option>
-                        <option value={3}>Niedrig</option>
+                        <option value="4">Keine Angabe</option>
+                        <option value="1">Hoch</option>
+                        <option value="2">Mittel</option>
+                        <option value="3">Niedrig</option>
                     </select>
-                    <input
-                        type="text"
+                    <select
                         name="assignedTo"
-                        placeholder="Zuständig"
-                        value={taskData.assignedTo}
+                        value={taskData.assignedTo || ''}
                         onChange={handleChange}
-                    />
+                    >
+                        <option value="">Keine Angabe</option>
+                        {members.map((member) => (
+                            <option key={member.userId} value={member.userId}>
+                                {member.username}
+                            </option>
+                        ))}
+                    </select>
                     <input
                         type="datetime-local"
                         name="dueDate"
-                        placeholder="Fälligkeitsdatum"
+                        placeholder="Fälligkeitsdatum (optional)"
                         value={taskData.dueDate}
                         onChange={handleChange}
                     />
-                    <button type="submit" disabled={!wgId}>
-                        {wgId ? 'Hinzufügen' : 'Laden...'}
+                    <button type="submit">
+                        {existingTask ? 'Speichern' : 'Hinzufügen'}
                     </button>
                 </form>
-                <button onClick={onClose} className="close-button">Schließen</button>
+                <button onClick={onClose} className="close-button">
+                    Abbrechen
+                </button>
             </div>
         </div>
     );
@@ -130,6 +179,7 @@ const AddTaskPopup = ({ onClose, onTaskAdded }) => {
 AddTaskPopup.propTypes = {
     onClose: PropTypes.func.isRequired,
     onTaskAdded: PropTypes.func.isRequired,
+    existingTask: PropTypes.object,
 };
 
 export default AddTaskPopup;
