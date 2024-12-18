@@ -32,7 +32,7 @@ data class ToDoResponse(
     val description: String?,
     val priority: Int,
     val status: String,
-    val assignedTo: String,
+    val assignedTo: String? = null,
     val dueDate: String?,
     val createdAt: String
 )
@@ -87,7 +87,7 @@ fun Route.toDoRoutes() {
 
                     // Aufgaben dieser WGs mit Benutzernamen der zugewiesenen Person abrufen
                     val query = ToDos
-                        .leftJoin(Users, { ToDos.assignedTo }, { Users.userId })
+                        .leftJoin(Users, { assignedTo }, { Users.userId })
                         .select { ToDos.wgId inList userWGs }
 
                     query.map {
