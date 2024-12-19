@@ -37,6 +37,7 @@ dependencies {
     implementation("io.ktor:ktor-server-netty:2.x.x")
     implementation("io.ktor:ktor-server-auth:2.x.x")
     implementation("io.ktor:ktor-server-auth-jwt:2.x.x")
+    implementation("io.ktor:ktor-server-websockets:2.3.2")
     implementation("io.ktor:ktor-server-content-negotiation:2.x.x")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.x.x")
     implementation("org.jetbrains.exposed:exposed-core:0.36.2")
