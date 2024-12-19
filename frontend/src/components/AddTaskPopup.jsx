@@ -154,7 +154,7 @@ const AddTaskPopup = ({ onClose, onTaskAdded, existingTask }) => {
                     >
                         <option value="">Keine Angabe</option>
                         {members.map((member) => (
-                            <option key={member.userId} value={member.userId}>
+                            <option key={member.userId} value={member.username}>
                                 {member.username}
                             </option>
                         ))}
@@ -170,7 +170,7 @@ const AddTaskPopup = ({ onClose, onTaskAdded, existingTask }) => {
                     </select>
 
                     <input
-                        type="datetime-local"
+                        type="date"
                         name="dueDate"
                         placeholder="Fälligkeitsdatum (optional)"
                         value={taskData.dueDate}

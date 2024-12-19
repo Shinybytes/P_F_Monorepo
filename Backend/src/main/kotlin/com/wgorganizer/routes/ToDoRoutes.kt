@@ -31,8 +31,9 @@ data class ToDoCreateRequest(
     val title: String,
     val description: String? = null,
     val priority: Int? = null,
-    val assignedTo: String? = null,  // jetzt Username statt Int
-    val dueDate: String? = null
+    val assignedTo: String? = null,
+    val dueDate: String? = null,
+    val status: String? = null
 )
 
 @Serializable
@@ -134,7 +135,7 @@ fun Route.toDoRoutes() {
                         it[title] = request.title
                         it[description] = request.description
                         it[priority] = request.priority
-                        it[status] = "Unerledigt"
+                        it[status] = request.status.toString()
                         it[assignedTo] = assignedUserId
                         it[dueDate] = request.dueDate?.let { LocalDate.parse(it) }
                         it[createdAt] = LocalDateTime.now()
