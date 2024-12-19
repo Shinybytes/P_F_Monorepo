@@ -9,6 +9,7 @@ const AddTaskPopup = ({ onClose, onTaskAdded, existingTask }) => {
         priority: 4, // Standardwert für "Keine Angabe"
         assignedTo: null, // Standardwert für "Keine Angabe"
         dueDate: '',
+        status: 'Unerledigt', // Standardstatus
     });
     const [wgId, setWgId] = useState(null); // WG-ID wird automatisch ermittelt
     const [members, setMembers] = useState([]); // WG-Mitglieder
@@ -85,6 +86,7 @@ const AddTaskPopup = ({ onClose, onTaskAdded, existingTask }) => {
             priority: taskData.priority || 4, // Standardwert für "Keine Angabe"
             assignedTo: taskData.assignedTo || null,
             dueDate: taskData.dueDate || null,
+            status: taskData.status || "Unerledigt",
             wgId,
         };
 
@@ -157,6 +159,16 @@ const AddTaskPopup = ({ onClose, onTaskAdded, existingTask }) => {
                             </option>
                         ))}
                     </select>
+                    <select
+                        name="status"
+                        value={taskData.status || "Unerledigt"}
+                        onChange={handleChange}
+                    >
+                        <option value="Unerledigt">Unerledigt</option>
+                        <option value="In Bearbeitung">In Bearbeitung</option>
+                        <option value="Erledigt">Erledigt</option>
+                    </select>
+
                     <input
                         type="datetime-local"
                         name="dueDate"

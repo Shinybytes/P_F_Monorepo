@@ -1,16 +1,18 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Button from './Button';
+import '../Global.css';
+import Header from './Header';
 import Input from './Input';
-import logo from '../assets/FlatFlow_Logo.png';
+import Button from './Button';
 
 const CreateOrJoinWG = () => {
     const [wgName, setWgName] = useState(''); // Name der neuen WG
-    const [joinName, setJoinName] = useState(''); // Name der existierenden WG
-    const [message, setMessage] = useState(''); // Rückmeldung zum Erfolg oder Fehler
-    const navigate = useNavigate(); // Für die Navigation
+    const [joinCode, setJoinCode] = useState(''); // Join-Code der erstellten WG
+    const [joinInput, setJoinInput] = useState(''); // Eingabefeld für den Beitritt
+    const [message, setMessage] = useState(''); // Erfolg- oder Fehlermeldung
+    const navigate = useNavigate();
 
-    // Funktion zum Erstellen einer neuen WG (API-Aufruf)
+    // Funktion zum Erstellen einer neuen WG
     const handleCreateWG = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -25,8 +27,8 @@ const CreateOrJoinWG = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                setMessage(`WG erfolgreich erstellt! WG-ID: ${data.wgId}`);
-                navigate('/'); // Weiterleitung zum Dashboard
+                setJoinCode(data.joinCode); // Join-Code speichern
+                setMessage('WG erfolgreich erstellt! Kopiere den Code, um ihn mit anderen zu teilen.');
             } else if (response.status === 409) {
                 setMessage('WG-Name bereits vergeben.');
             } else {
@@ -39,7 +41,7 @@ const CreateOrJoinWG = () => {
         }
     };
 
-    // Funktion zum Beitreten einer bestehenden WG (API-Aufruf)
+    // Funktion zum Beitreten einer bestehenden WG
     const handleJoinWG = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -49,14 +51,14 @@ const CreateOrJoinWG = () => {
                     'Content-Type': 'application/json',
                     Authorization: `Bearer ${token}`,
                 },
-                body: JSON.stringify({ name: joinName }),
+                body: JSON.stringify({ joinCode: joinInput }),
             });
 
             if (response.ok) {
                 setMessage('Erfolgreich der WG beigetreten!');
                 navigate('/'); // Weiterleitung zum Dashboard
             } else if (response.status === 404) {
-                setMessage('WG nicht gefunden.');
+                setMessage('WG mit diesem Code nicht gefunden.');
             } else if (response.status === 409) {
                 setMessage('Benutzer ist bereits Mitglied in dieser WG.');
             } else {
@@ -69,12 +71,20 @@ const CreateOrJoinWG = () => {
         }
     };
 
+    const copyToClipboard = () => {
+        if (joinCode) {
+            navigator.clipboard.writeText(joinCode);
+            alert('Join-Code kopiert!');
+        }
+    };
+
     return (
         <div className="container-center">
-            <img src={logo} alt="FlatFlow Logo" className="logo" />
+            <Header />
             <h2>WG beitreten oder erstellen</h2>
             {message && <p className="message">{message}</p>}
 
+            {/* Bereich zum Erstellen einer WG */}
             <div className="create-wg-section">
                 <h3>Neue WG erstellen</h3>
                 <Input
@@ -85,15 +95,25 @@ const CreateOrJoinWG = () => {
                     required
                 />
                 <Button onClick={handleCreateWG}>Erstellen</Button>
+
+                {/* Anzeige des Join-Codes nach erfolgreicher Erstellung */}
+                {joinCode && (
+                    <div className="wg-info">
+                        <p><strong>Join-Code:</strong> {joinCode}</p>
+                        <Button onClick={copyToClipboard}>Code kopieren</Button>
+                        <Button onClick={() => navigate('/')}>Zum Dashboard</Button> {/* Button erscheint nur bei WG-Erstellung */}
+                    </div>
+                )}
             </div>
 
+            {/* Bereich zum Beitreten einer WG */}
             <div className="join-wg-section">
                 <h3>WG beitreten</h3>
                 <Input
                     type="text"
-                    placeholder="Name der WG"
-                    value={joinName}
-                    onChange={(e) => setJoinName(e.target.value)}
+                    placeholder="Join-Code eingeben"
+                    value={joinInput}
+                    onChange={(e) => setJoinInput(e.target.value)}
                     required
                 />
                 <Button onClick={handleJoinWG}>Beitreten</Button>
@@ -103,5 +123,3 @@ const CreateOrJoinWG = () => {
 };
 
 export default CreateOrJoinWG;
-
-
