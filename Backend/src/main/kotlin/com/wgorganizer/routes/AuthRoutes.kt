@@ -101,20 +101,49 @@ fun Route.authRoutes() {
             put("/profile") {
                 val principal = call.principal<JWTPrincipal>()
                 val userId = principal!!.payload.getClaim("userId").asInt()
-                val request = call.receive<UserRegisterRequest>() // Reuse the data class for simplicity
+                val request = call.receive<UserRegisterRequest>()
+
+                val currentUser = transaction {
+                    Users.select { Users.userId eq userId }.singleOrNull()
+                }
+
+                if (currentUser == null) {
+                    call.respond(HttpStatusCode.NotFound, "Benutzer nicht gefunden")
+                    return@put
+                }
+
+                val usernameUpdated = request.username.isNotBlank() && request.username != currentUser[Users.username]
+                val emailUpdated = request.email.isNotBlank() && request.email != currentUser[Users.email]
+                val passwordUpdated = request.password.isNotBlank()
+
+                if (!usernameUpdated && !emailUpdated && !passwordUpdated) {
+                    call.respond(HttpStatusCode.BadRequest, "Keine Änderungen erkannt")
+                    return@put
+                }
+
+                if (emailUpdated) {
+                    val emailExists = transaction {
+                        Users.select { Users.email eq request.email and (Users.userId neq userId) }.count() > 0
+                    }
+                    if (emailExists) {
+                        call.respond(HttpStatusCode.Conflict, "E-Mail-Adresse wird bereits verwendet")
+                        return@put
+                    }
+                }
 
                 transaction {
                     Users.update({ Users.userId eq userId }) {
-                        it[username] = request.username
-                        it[email] = request.email
-                        if (request.password.isNotBlank()) {
-                            it[passwordHash] = BCrypt.hashpw(request.password, BCrypt.gensalt())
-                        }
+                        if (usernameUpdated) it[username] = request.username
+                        if (emailUpdated) it[email] = request.email
+                        if (passwordUpdated) it[passwordHash] = BCrypt.hashpw(request.password, BCrypt.gensalt())
                     }
                 }
 
                 call.respond(HttpStatusCode.OK, "Profil aktualisiert")
             }
+
+
+
 
             delete("/profile") {
                 val principal = call.principal<JWTPrincipal>()
