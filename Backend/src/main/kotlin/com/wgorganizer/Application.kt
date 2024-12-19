@@ -8,6 +8,7 @@ import com.wgorganizer.routes.authRoutes
 import com.wgorganizer.routes.wgRoutes
 import com.wgorganizer.routes.toDoRoutes
 import com.wgorganizer.routes.wgChatRoutes
+import com.wgorganizer.routes.toDoWebSocketRoutes
 import com.wgorganizer.security.JWTConfig.configureSecurity
 import io.ktor.server.plugins.contentnegotiation.*
 import io.ktor.serialization.kotlinx.json.*
@@ -49,6 +50,7 @@ fun Application.module() {
         wgRoutes()
         toDoRoutes()
         wgChatRoutes()
+        toDoWebSocketRoutes()
 
     }
 }

@@ -40,9 +40,9 @@ dependencies {
     implementation("io.ktor:ktor-server-websockets:2.3.2")
     implementation("io.ktor:ktor-server-content-negotiation:2.x.x")
     implementation("io.ktor:ktor-serialization-kotlinx-json:2.x.x")
-    implementation("org.jetbrains.exposed:exposed-core:0.36.2")
-    implementation("org.jetbrains.exposed:exposed-dao:0.36.2")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.36.2")
+    implementation("org.jetbrains.exposed:exposed-core:0.41.1")
+    implementation("org.jetbrains.exposed:exposed-dao:0.41.1")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.41.1")
     implementation("org.postgresql:postgresql:42.3.1")
     implementation("io.ktor:ktor-server-core:2.3.2")
     implementation("io.ktor:ktor-server-cors:2.3.2")
@@ -62,4 +62,5 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-java-time:0.41.1")
     testImplementation("io.ktor:ktor-server-tests:2.3.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test-junit:1.8.0")
+
 }

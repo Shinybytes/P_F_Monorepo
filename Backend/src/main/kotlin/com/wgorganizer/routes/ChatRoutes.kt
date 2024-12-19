@@ -11,6 +11,7 @@ import org.jetbrains.exposed.sql.transactions.transaction
 import java.time.LocalDateTime
 import com.wgorganizer.models.*
 import io.ktor.server.websocket.*
+import kotlinx.serialization.encodeToString
 
 
 @Serializable
@@ -72,6 +73,25 @@ fun Route.wgChatRoutes() {
                 close(CloseReason(CloseReason.Codes.CANNOT_ACCEPT, "WG nicht gefunden"))
                 return@webSocket
             }
+
+            // Nachrichten für die WG abrufen
+            val messages = transaction {
+                WGChats.select { WGChats.wgId eq wgId }
+                    .orderBy(WGChats.sentAt, SortOrder.ASC)
+                    .map {
+                        CreateMessageResponse(
+                            messageId = it[WGChats.messageId],
+                            wgId = it[WGChats.wgId],
+                            senderId = it[WGChats.senderId],
+                            content = it[WGChats.content],
+                            sentAt = it[WGChats.sentAt].toString()
+                        )
+                    }
+            }
+
+            // Initiale Nachrichten senden
+            val initialMessage = Json.encodeToString(messages)
+            send(Frame.Text(initialMessage))
 
             // Verbindungen verwalten
             val connections = mutableSetOf<WebSocketSession>()
