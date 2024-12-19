@@ -1,7 +1,6 @@
 package com.wgorganizer.routes
 
 import io.ktor.server.routing.*
-import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.request.*
 import com.wgorganizer.models.*
@@ -13,15 +12,16 @@ import io.ktor.server.auth.jwt.*
 import kotlinx.serialization.Serializable
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import java.time.LocalDateTime
+import java.util.UUID
 
 @Serializable
 data class WGCreateRequest(val name: String)
 
 @Serializable
-data class WGJoinRequest(val name: String)
+data class WGJoinRequest(val joinCode: String)
 
 @Serializable
-data class WGResponse(val wgId: Int, val name: String, val createdAt: String)
+data class WGResponse(val wgId: Int, val name: String, val joinCode: String, val createdAt: String)
 
 @Serializable
 data class UserResponse(val userId: Int, val username: String, val email: String, val createdAt: String)
@@ -38,23 +38,38 @@ fun Route.wgRoutes() {
                 val wgId = newSuspendedTransaction {
                     if (WGs.select { WGs.name eq request.name }.count() > 0) {
                         call.respond(HttpStatusCode.Conflict, "WG-Name bereits vergeben")
-                        return@newSuspendedTransaction  null
+                        return@newSuspendedTransaction null
                     }
+
+                    val joinCode = UUID.randomUUID().toString()
 
                     val newWgId = WGs.insert {
                         it[name] = request.name
                         it[createdAt] = LocalDateTime.now()
+                        it[WGs.joinCode] = joinCode
                     } get WGs.wgId
 
                     WGMembers.insert {
-                        it[WGMembers.wgId] = newWgId
+                        it[wgId] = newWgId
                         it[WGMembers.userId] = userId
                     }
 
                     newWgId
                 } ?: return@post
 
-                call.respond(HttpStatusCode.Created, mapOf("wgId" to wgId))
+                val wg = transaction {
+                    WGs.select { WGs.wgId eq wgId }.single()
+                }
+
+                call.respond(
+                    HttpStatusCode.Created,
+                    WGResponse(
+                        wgId = wg[WGs.wgId],
+                        name = wg[WGs.name],
+                        joinCode = wg[WGs.joinCode],
+                        createdAt = wg[WGs.createdAt].toString()
+                    )
+                )
             }
 
             post("/join") {
@@ -63,15 +78,15 @@ fun Route.wgRoutes() {
                 val userId = principal!!.payload.getClaim("userId").asInt()
 
                 newSuspendedTransaction {
-                    val wg = WGs.select { WGs.name eq request.name }.singleOrNull()
-                        ?: return@newSuspendedTransaction  call.respond(HttpStatusCode.NotFound, "WG nicht gefunden")
+                    val wg = WGs.select { WGs.joinCode eq request.joinCode }.singleOrNull()
+                        ?: return@newSuspendedTransaction call.respond(HttpStatusCode.NotFound, "Ungültiger Code")
 
                     if (WGMembers.select { (WGMembers.wgId eq wg[WGs.wgId]) and (WGMembers.userId eq userId) }.count() > 0) {
-                        return@newSuspendedTransaction  call.respond(HttpStatusCode.Conflict, "Benutzer ist bereits Mitglied in dieser WG")
+                        return@newSuspendedTransaction call.respond(HttpStatusCode.Conflict, "Benutzer ist bereits Mitglied in dieser WG")
                     }
 
                     WGMembers.insert {
-                        it[WGMembers.wgId] = wg[WGs.wgId]
+                        it[wgId] = wg[WGs.wgId]
                         it[WGMembers.userId] = userId
                     }
 
@@ -99,7 +114,9 @@ fun Route.wgRoutes() {
                     WGResponse(
                         wg[WGs.wgId],
                         wg[WGs.name],
+                        wg[WGs.joinCode],
                         wg[WGs.createdAt].toString()
+
                     )
                 )
             }

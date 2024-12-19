@@ -7,5 +7,6 @@ object WGs : Table() {
     val wgId = integer("wg_id").autoIncrement()
     val name = varchar("name", 100).uniqueIndex()
     val createdAt = datetime("created_at")
+    val joinCode = varchar("join_code", 36)
     override val primaryKey = PrimaryKey(wgId)
 }
