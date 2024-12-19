@@ -16,10 +16,11 @@ const Dashboard = () => {
     const checkAuthentication = () => {
         const token = localStorage.getItem('token');
         if (!token) {
-            alert("Bitte logge dich ein, um das Dashboard zu nutzen.");
-            navigate('/login');
+            navigate('/login'); // Leitet direkt zum Login weiter
         }
     };
+
+
 
     const loadWgData = async () => {
         try {
@@ -183,7 +184,7 @@ const Dashboard = () => {
                             <td>{task.description || 'Keine Beschreibung'}</td>
                             <td>{translatePriority(task.priority)}</td>
                             <td>{task.assignedTo || 'Keine Zuweisung'}</td>
-                            <td>{task.status || 'Unbekannt'}</td>
+                            <td>{task.status || 'Unerledigt'}</td>
                             <td>
                                 {task.dueDate
                                     ? new Date(task.dueDate).toLocaleString('de-DE', {

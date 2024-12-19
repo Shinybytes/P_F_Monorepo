@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '../Global.css';
 import Header from './Header';
@@ -11,10 +11,10 @@ const Profile = () => {
         email: '',
         password: '',
     });
+    const [wgData, setWgData] = useState(null); // WG-Daten
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
 
-    // Lädt die aktuellen Benutzerdaten
     const loadUserData = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -30,8 +30,26 @@ const Profile = () => {
                 setUserData({
                     username: data.username,
                     email: data.email,
-                    password: '', // Passwort bleibt leer
+                    password: '',
                 });
+
+                if (data.wgId) {
+                    // WG-Daten laden
+                    const wgResponse = await fetch(`http://localhost:8080/wg/${data.wgId}`, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    });
+
+                    if (wgResponse.ok) {
+                        const wg = await wgResponse.json();
+                        setWgData(wg); // WG-Daten speichern
+                    } else {
+                        setWgData(null);
+                        console.error('Fehler beim Laden der WG-Daten:', wgResponse.statusText);
+                    }
+                }
             } else {
                 setMessage('Fehler beim Laden der Benutzerdaten.');
             }
@@ -41,15 +59,13 @@ const Profile = () => {
         }
     };
 
-    useState(() => {
+    useEffect(() => {
         loadUserData();
     }, []);
 
-    // Aktualisiert die Benutzerdaten
     const handleUpdate = async (e) => {
         e.preventDefault();
 
-        // Neues Objekt ohne leeres Passwort erstellen
         const updatedData = {
             username: userData.username,
             email: userData.email,
@@ -80,7 +96,6 @@ const Profile = () => {
         }
     };
 
-    // Löscht das Benutzerkonto
     const handleDeleteAccount = async () => {
         try {
             const token = localStorage.getItem('token');
@@ -106,7 +121,13 @@ const Profile = () => {
         }
     };
 
-    // Handhabt die Eingaben
+    const copyToClipboard = () => {
+        if (wgData?.joinCode) {
+            navigator.clipboard.writeText(wgData.joinCode);
+            alert('Join-Code kopiert!');
+        }
+    };
+
     const handleChange = (e) => {
         setUserData({
             ...userData,
@@ -138,21 +159,31 @@ const Profile = () => {
                     <Input
                         type="password"
                         name="password"
-                        placeholder="Neues Passwort"
+                        placeholder="Passwort"
                         value={userData.password}
                         onChange={handleChange}
                         required={false}
                     />
-
                     <Button type="submit">Speichern</Button>
                     <Button onClick={handleDeleteAccount} className="delete-button">
                         Konto löschen
                     </Button>
                 </form>
+
+                {/* WG-Daten anzeigen */}
+                {wgData ? (
+                    <div className="wg-info">
+                        <h3>WG-Informationen</h3>
+                        <p><strong>WG-Name:</strong> {wgData.name}</p>
+                        <p><strong>Join-Code:</strong> {wgData.joinCode}</p>
+                        <Button onClick={copyToClipboard}>Join-Code kopieren</Button>
+                    </div>
+                ) : (
+                    <p>Keine WG-Daten verfügbar.</p>
+                )}
             </div>
         </>
     );
 };
 
 export default Profile;
-
